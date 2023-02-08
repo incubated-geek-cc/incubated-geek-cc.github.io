@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang='en' class='notranslate' translate='no'>
+  <head>
+	<meta name='google' content='notranslate' />
+	<meta charset='UTF-8'>
+	<meta name='description' content='A Custom Hexagonal ColorPicker'>
+	<meta name='keywords' content='CSS,JavaScript,HTML,Unicode'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
+	<meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />  
+	<meta http-equiv='Content-Language' content='en' />
+	<title>Microsoft Office ColorPicker</title>
+	<meta name='msapplication-TileColor' content='#ffffff' />
+	<meta name='theme-color' content='#ffffff' />
+	<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+	<meta name='apple-mobile-web-app-capable' content='yes' />
+	<meta name='mobile-web-app-capable' content='yes' />
+	<meta name='HandheldFriendly' content='True' />
+	<meta name='MobileOptimized' content='320' />  
+	<meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests' /> 
+	<style>
+		html,body {
+			padding:0;
+			margin:0;
+			overflow:hidden;    
+			font-family: monospace;
+			font-size:1rem;
+		}
+
+		#selectedHexColor,
+		#selectedRgbColor {
+		    padding: 0.75em;
+		    border-radius: 50%;
+		    font-size: x-small;
+		    margin: 0 0.5em;
+		    border: 0.5px solid #9d9999;
+		    border-style: dashed;
+		}
+		div.hexColorPicker {
+			width:fit-content;
+			margin: 0.75em auto;
+		}
+		span.condensed-line {
+			text-align:center;
+			display:block;
+			font-size:20px;
+			line-height: 14.65px;
+			font-stretch: ultra-condensed;
+		}
+		span.colorHex {
+			cursor:pointer;
+		}
+		span.colorHex.color-selected {
+			-webkit-text-stroke: 1.15px black !important;
+		}
+		.noselect {
+		  -webkit-touch-callout: none; /* iOS Safari */
+		    -webkit-user-select: none; /* Safari */
+		     -khtml-user-select: none; /* Konqueror HTML */
+		       -moz-user-select: none; /* Old versions of Firefox */
+		        -ms-user-select: none; /* Internet Explorer/Edge */
+		            user-select: none; /* Non-prefixed version, currently
+		                                  supported by Chrome, Edge, Opera and Firefox */
+		}
+		.form-control {
+		    font-size: 1rem;
+		    line-height: 1.5;
+		    color: #495057;
+		    background-color: #fff;
+		    background-clip: padding-box;
+		    border: 1px solid #ced4da;
+		    border-radius: 0;
+		    width: 6rem;
+		    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+ 
+		.rgb-form-control {
+			width:3rem;
+		}
+	</style>
+	</head>
+	<body>
+		<noscript>Please enable JavaScript on your browser.</noscript>
+		<div class='hexColorPicker'>
+			<div id='output' class='noselect'></div>
+			<div id='colorInputs'>
+				<p>Hex <input id='hexInputVal' type='text' class='form-control' disabled /> <span id='selectedHexColor'>🎨</span> <button value='hexInputVal' type='button' class='copyBtn'>⧉ Copy</button></p>
+				<p>R <input id='rInputVal' type='text' class='form-control rgb-form-control' disabled /> G <input id='gInputVal' type='text' class='form-control rgb-form-control' disabled /> B <input id='bInputVal' type='text' class='form-control rgb-form-control' disabled /><span id='selectedRgbColor'>🎨</span> <input id='rgbInputVal' type='hidden' /> <button value='rgbInputVal' type='button' class='copyBtn'>⧉ Copy</button></p>
+			</div>
+		</div>
+		<script>
+			const allColors=['#003366','#336699','#3366CC','#003399','#000099','#0000CC','#000066','#006666','#006699','#0099CC','#0066CC','#0033CC','#0000FF','#3333FF','#333399','#669999','#009999','#33CCCC','#00CCFF','#0099FF','#0066FF','#3366FF','#3333CC','#666699','#339966','#00CC99','#00FFCC','#00FFFF','#33CCFF','#3399FF','#6699FF','#6666FF','#6600FF','#6600CC','#339933','#00CC66','#00FF99','#66FFCC','#66FFFF','#66CCFF','#99CCFF','#9999FF','#9966FF','#9933FF','#9900FF','#006600','#00CC00','#00FF00','#66FF99','#99FFCC','#CCFFFF','#CCCCFF','#CC99FF','#CC66FF','#CC33FF','#CC00FF','#9900CC','#003300','#009933','#33CC33','#66FF66','#99FF99','#CCFFCC','#FFFFFF','#FFCCFF','#FF99FF','#FF66FF','#FF00FF','#CC00CC','#660066','#336600','#009900','#66FF33','#99FF66','#CCFF99','#FFFFCC','#FFCCCC','#FF99CC','#FF66CC','#FF33CC','#CC0099','#993399','#333300','#669900','#99FF33','#CCFF66','#FFFF99','#FFCC99','#FF9999','#FF6699','#FF3399','#CC3399','#990099','#666633','#99CC00','#CCFF33','#FFFF66','#FFCC66','#FF9966','#FF6666','#FF0066','#CC6699','#993366','#999966','#CCCC00','#FFFF00','#FFCC00','#FF9933','#FF6600','#FF5050','#CC0066','#660033','#996633','#CC9900','#FF9900','#CC6600','#FF3300','#FF0000','#CC0000','#990033','#663300','#996600','#CC3300','#993300','#990000','#800000','#993333'];
+			const hexUnicode='⬢';
+			var n=0;
+			var hexNums=[7, 8, 9, 10, 11, 12];
+			var hexArrs=[];
+			var hexNum;
+			for(hexNum of hexNums) {
+				hexArr=[];
+				for(n=0;n<hexNum;n++) hexArr.push(hexUnicode);
+				hexArrs.push(hexArr);
+			}
+			hexArr=[];
+			for(n=0;n<13;n++) hexArr.push(hexUnicode);
+			hexArrs.push(hexArr);
+			hexArr=[];
+			var hexNums2=JSON.parse(JSON.stringify(hexNums));
+			hexNums2.reverse();
+			for(hexNum of hexNums2) {
+				hexArr=[];
+				for(n=0;n<hexNum;n++) hexArr.push(hexUnicode);
+				hexArrs.push(hexArr);
+			}
+			var output=document.getElementById("output");
+			for(var hexArrLine of hexArrs) {
+				var hexLine='<span class="colorHex">'+hexArrLine.join('</span><span class="colorHex">') + '</span>';
+				output.insertAdjacentHTML('beforeend', '<span class="condensed-line">'+hexLine+'</span>');
+			}
+
+			// Taken from: https://www.30secondsofcode.org/js/s/hex-to-rgb
+			const hexToRGB = (hex) => {
+			  let h = hex.slice(hex.startsWith('#') ? 1 : 0);
+			  if (h.length === 3) h = [...h].map(x => x + x).join('');
+			  h = parseInt(h, 16);
+			  return {
+			  	'r': (h >>> 16),
+			  	'g': ((h & 0x00ff00) >>> 8),
+			  	'b': ((h & 0x0000ff) >>> 0)
+			  };
+			};
+
+			function copyToClipboard(inputEleId) {
+	           let copyText = document.getElementById(inputEleId);
+	           navigator.clipboard.writeText(copyText.value);
+	        }
+
+	        var copyBtns=document.getElementsByClassName("copyBtn");
+	        for(var copyBtn of copyBtns) {
+	        	copyBtn.addEventListener('click', (evt) => {
+	        		copyToClipboard(evt.target.value);
+	        	}, false);
+	        }
+
+			var hexInputVal=document.getElementById('hexInputVal');
+
+			var rInputVal=document.getElementById('rInputVal');
+			var gInputVal=document.getElementById('gInputVal');
+			var bInputVal=document.getElementById('bInputVal');
+
+			var rgbInputVal=document.getElementById('rgbInputVal');
+
+			var selectedHexColor=document.getElementById('selectedHexColor');
+			var selectedRgbColor=document.getElementById('selectedRgbColor');
+
+			var colorHexs=document.getElementsByClassName('colorHex');
+			var h=0;
+			for(var colorHex of colorHexs) {
+				colorHex['style']['webkit-text-fill-color']=allColors[h];
+				colorHex['style']['color']=allColors[h];
+				colorHex['style']['-webkit-text-stroke']='3.75px '+allColors[h];
+
+				colorHex.setAttribute('data-hex',allColors[h]);
+				let rgbObj=hexToRGB(allColors[h]);
+				colorHex.setAttribute('data-r',  rgbObj['r']);
+				colorHex.setAttribute('data-g',  rgbObj['g']);
+				colorHex.setAttribute('data-b',  rgbObj['b']);
+
+				colorHex.addEventListener('click', (evt) => {
+					let hexSrcElement=evt.srcElement;
+
+					let selectedColorHex=document.getElementsByClassName('color-selected');
+					if(selectedColorHex.length>0) {
+						selectedColorHex[0].classList.remove('color-selected');
+					}
+					hexSrcElement.classList.add('color-selected');
+
+					let dataset=hexSrcElement.dataset;
+					let hexVal=dataset.hex;
+					hexInputVal.value=hexVal.toLowerCase();
+					selectedHexColor['style']['background']=hexVal;
+
+					let rVal=dataset['r'];
+					let gVal=dataset['g'];
+					let bVal=dataset['b'];
+					rInputVal.value=rVal;
+					gInputVal.value=gVal;
+					bInputVal.value=bVal;
+					let rgbVal=`rgb(${rVal}, ${gVal}, ${bVal})`;
+					rgbInputVal.value=rgbVal;
+					selectedRgbColor['style']['background']=rgbVal;
+				}, false);
+				h++;
+			}
+			colorHexs[Math.floor(Math.random() * 127)].click();
+		</script>
+	</body>
+</html>

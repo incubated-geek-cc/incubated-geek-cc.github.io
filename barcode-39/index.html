@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Generate Barcode CODE39 with Unicode Symbols">
+    <meta name="keywords" content="Barcode,CODE39,Unicode">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />  
+    <meta http-equiv="Content-Language" content="en" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <title>│█║▌│ᴃᴀʀᴄᴏᴅᴇ ᶜᵒᵈᵉ ³⁹ ᴍᴀᴋᴇʀ</title>
+    <style>
+        body {
+            font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+        }
+        #barcodeText {
+            width: 43rem;
+            height: calc(1rem + 8.5px);
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            padding: calc(0rem + 6.5px) calc(0.375rem + 6px);
+            margin-right: 0.05rem;
+            font-size: 1rem;
+            border-radius: 0;
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-decoration: none;
+            vertical-align: middle;
+            text-transform: uppercase;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        #barcodeText:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+        }
+        span.B2 {
+            background:#000;
+            padding:10px 1px;
+        }
+        span.B5 {
+            background:#000;
+            padding:10px 2.5px
+        }
+        span.W2 {
+            background:#fff;
+            padding:10px 1px;
+        }
+        span.W5 {
+            background:#fff;
+            padding:10px 2.5px;
+        }
+        h4 {
+          font-family: Cambria;
+        }
+        table {
+            border-collapse: collapse;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: middle;
+            font-size: 1rem;
+            font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+        }
+        .table {
+            width: 100%;
+            /*margin-bottom: 1rem;*/
+            background-color: transparent;
+        }
+        .table-bordered {
+            border: 1px solid #dee2e6;
+        }
+        th {
+            text-align: inherit;
+        }
+        td {
+            font-size: xx-small;
+        }
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+        .table td, .table th {
+            padding: 0.15rem;
+            vertical-align: middle;
+            border-top: 1px solid #dee2e6;
+            white-space: nowrap;
+        }
+        .table-bordered thead td, 
+        .table-bordered thead th {
+            border-bottom-width: 2px;
+        }
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        } 
+
+        button {
+            font-family:Cambria;
+        }
+        .btn {
+          display: inline-block;
+          align-self: center;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #212529;
+          text-align: center;
+          text-decoration: none;
+          vertical-align: middle;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          background-color: transparent;
+          border: 1px solid transparent;
+          padding: calc(0.0rem + 6.5px) calc(0.375rem + 6px);
+          font-size: 1rem;
+          border-radius: 0;
+          transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .btn {
+            transition: none;
+          }
+        }
+        .btn:hover {
+          color: #212529;
+        }
+        .btn-check:focus + .btn,
+        .btn:focus {
+          outline: 0;
+          box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .btn.disabled,
+        .btn:disabled,
+        fieldset:disabled .btn {
+          pointer-events:none;
+          opacity: 0.65;
+        }
+        .btn-outline-info {
+          color: #0dcaf0;
+          border-color: #0dcaf0;
+        }
+        .btn-outline-info:hover {
+          color: #000;
+          background-color: #0dcaf0;
+          border-color: #0dcaf0;
+        }
+        .btn-check:focus + .btn-outline-info,
+        .btn-outline-info:focus {
+          box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5);
+        }
+        .btn-check:active + .btn-outline-info,
+        .btn-check:checked + .btn-outline-info,
+        .btn-outline-info.active,
+        .btn-outline-info.dropdown-toggle.show,
+        .btn-outline-info:active {
+          color: #000;
+          background-color: #0dcaf0;
+          border-color: #0dcaf0;
+        }
+        .btn-check:active + .btn-outline-info:focus,
+        .btn-check:checked + .btn-outline-info:focus,
+        .btn-outline-info.active:focus,
+        .btn-outline-info.dropdown-toggle.show:focus,
+        .btn-outline-info:active:focus {
+          box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5);
+        }
+        .btn-outline-info.disabled,
+        .btn-outline-info:disabled {
+          color: #0dcaf0;
+          background-color: transparent;
+        }
+        .btn-outline-dark {
+          color: #212529;
+          border-color: #212529;
+        }
+        .btn-outline-dark:hover {
+          color: #fff;
+          background-color: #212529;
+          border-color: #212529;
+        }
+        .btn-check:focus + .btn-outline-dark,
+        .btn-outline-dark:focus {
+          box-shadow: 0 0 0 0.25rem rgba(33, 37, 41, 0.5);
+        }
+        .btn-check:active + .btn-outline-dark,
+        .btn-check:checked + .btn-outline-dark,
+        .btn-outline-dark.active,
+        .btn-outline-dark.dropdown-toggle.show,
+        .btn-outline-dark:active {
+          color: #fff;
+          background-color: #212529;
+          border-color: #212529;
+        }
+        .btn-check:active + .btn-outline-dark:focus,
+        .btn-check:checked + .btn-outline-dark:focus,
+        .btn-outline-dark.active:focus,
+        .btn-outline-dark.dropdown-toggle.show:focus,
+        .btn-outline-dark:active:focus {
+          box-shadow: 0 0 0 0.25rem rgba(33, 37, 41, 0.5);
+        }
+        .btn-outline-dark.disabled,
+        .btn-outline-dark:disabled {
+          color: #212529;
+          background-color: transparent;
+        }
+
+        button.copy-btn,
+        #copyBarcodeSymbolDisplay {
+          font-size: xx-small;
+          white-space: nowrap;
+          padding: 0.15rem 0.25rem;
+        }
+
+        textarea {
+            resize:none; 
+        }
+
+        #barcodeSymbolDisplay,
+        #barcodeDisplay {
+            white-space: nowrap;
+            display: block;
+            width: 80vw;
+            margin: 0;
+            padding: 2rem 1rem 0;
+            height: 3rem;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 0.0;
+        }
+        #barcodeSymbolDisplay:focus-visible {
+            outline:none;
+        }
+        #barcodeDisplay {
+            user-select:none;
+            border-color:transparent;
+        }
+
+        #copyrightBanner {
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+            padding: 0.45rem 0.35rem;
+        }
+    </style>
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <p id="copyrightBanner">© Copyright <span id="yearDisplay"></span> | Created by <a href="https://medium.com/@geek-cc" target="_blank">the Girl with a ribbon</a> ξ(🎀˶❛◡❛)</p>
+    🔗 <a href="https://online-barcode-reader.inliteresearch.com/" target="_blank">Online Barcode Decoder</a>
+
+    <p>ɪɴᴘᴜᴛ ᴛᴇxᴛ ʜᴇʀᴇ: <input type="text" id="barcodeText" name="barcodeText" maxlength="43" /><button id="renderBarcodeBtn" class="btn btn-outline-dark">💡 ɢᴇɴᴇʀᴀᴛᴇ ᴃᴀʀᴄᴏᴅᴇ ᶜᵒᵈᵉ ³⁹ »</button></p>
+    <p><u>Regular Display</u><div id="barcodeDisplay"></div></p>
+    <p><u>Unicode Symbols</u> <button id="copyBarcodeSymbolDisplay" class='btn btn-outline-dark' type='button'>⧉ ᴄᴏᴘʏ</button></p>
+    <p><textarea id="barcodeSymbolDisplay" readonly></textarea></p>
+    
+    <p>📑 Table of Reference</p>
+    <div id="tableRef"></div>
+    <script>
+        document.getElementById("yearDisplay").innerText = new Date().getFullYear();
+        var barCharMapper={
+          "Numerical": {
+            "0":"▌▌ █▌█▌▌", "1":"█▌▌ ▌▌█▌", "2":"▌█▌ ▌▌█▌", "3":"█▌█▌ ▌▌▌", "4":"▌▌ █▌▌█▌", 
+            "5":"█▌▌ █▌▌▌", "6":"▌█▌ █▌▌▌", "7":"▌▌ ▌█▌█▌", "8":"█▌▌ ▌█▌▌", "9":"▌█▌ ▌█▌▌"
+          },
+          "Alpha": {
+            "A":"█▌▌▌ ▌█▌", "B":"▌█▌▌ ▌█▌", "C":"█▌█▌▌ ▌▌", "D":"▌▌█▌ ▌█▌", "E":"█▌▌█▌ ▌▌",
+            "F":"▌█▌█▌ ▌▌", "G":"▌▌▌ █▌█▌", "H":"█▌▌▌ █▌▌", "I":"▌█▌▌ █▌▌", "J":"▌▌█▌ █▌▌",
+            "K":"█▌▌▌▌ █▌", "L":"▌█▌▌▌ █▌", "M":"█▌█▌▌▌ ▌", "N":"▌▌█▌▌ █▌", "O":"█▌▌█▌▌ ▌",
+            "P":"▌█▌█▌▌ ▌", "Q":"▌▌▌█▌ █▌", "R":"█▌▌▌█▌ ▌", "S":"▌█▌▌█▌ ▌", "T":"▌▌█▌█▌ ▌",
+            "U":"█▌ ▌▌▌█▌", "V":"▌ █▌▌▌█▌", "W":"█▌ █▌▌▌▌", "X":"▌ ▌█▌▌█▌", "Y":"█▌ ▌█▌▌▌",
+            "Z":"▌ █▌█▌▌▌"
+          },
+          "Symbol": {
+            "+":"▌ ▌▌ ▌ ▌", "-":"▌ ▌▌█▌█▌", "*":"▌ ▌█▌█▌▌", "/":"▌ ▌ ▌▌ ▌",
+            "%":"▌▌ ▌ ▌ ▌", "$":"▌ ▌ ▌ ▌▌", ",":"█▌ ▌▌█▌▌", "_":"▌ █▌▌█▌▌"
+          }
+        };
+
+        const copyBtnHtmlStr="<button class='copy-btn btn btn-outline-dark' type='button'>⧉ ᴄᴏᴘʏ</button>";
+        var tableRef=document.getElementById("tableRef");
+
+        var numericalValObj=barCharMapper["Numerical"];
+        var numericalKeyList=Object.keys(numericalValObj);
+        var numericalValList=Object.values(numericalValObj);
+
+        var tableRefRowsHtmlStr="";
+        tableRefRowsHtmlStr+=`<table class="table table-bordered">`;
+        // tableRefRowsHtmlStr+=`<thead><tr><th colspan="${numericalKeyList.length*2}">🔢 Numerical</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<thead><tr align="center"><th colspan="2">${numericalKeyList.join("</th><th colspan='2'>")}</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<tbody><tr align="center"><td>${numericalValList.join(`</td><td>${copyBtnHtmlStr}</td><td>`)}</td><td>${copyBtnHtmlStr}</td></tr></tbody>`;
+        tableRefRowsHtmlStr+=`<table>`;
+
+        tableRefRowsHtmlStr+=`<br>`;
+        var alphaValObj=barCharMapper["Alpha"];
+        var alphaKeyList=Object.keys(alphaValObj).slice(0,10);
+        var alphaValList=Object.values(alphaValObj).slice(0,10);
+        tableRefRowsHtmlStr+=`<table class="table table-bordered">`;
+        // tableRefRowsHtmlStr+=`<thead><tr><th colspan="${alphaKeyList.length*2}">🔠 Alpha</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<thead><tr align="center"><th colspan="2">${alphaKeyList.join("</th><th colspan='2'>")}</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<tbody><tr align="center"><td>${alphaValList.join(`</td><td>${copyBtnHtmlStr}</td><td>`)}</td><td>${copyBtnHtmlStr}</td></tr></tbody>`;
+
+        alphaKeyList=Object.keys(alphaValObj).slice(10,20);
+        alphaValList=Object.values(alphaValObj).slice(10,20);
+        tableRefRowsHtmlStr+=`<thead><tr align="center"><th colspan="2">${alphaKeyList.join("</th><th colspan='2'>")}</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<tbody><tr align="center"><td>${alphaValList.join(`</td><td>${copyBtnHtmlStr}</td><td>`)}</td><td>${copyBtnHtmlStr}</td></tr></tbody>`;
+
+        alphaKeyList=Object.keys(alphaValObj).slice(20);
+        alphaValList=Object.values(alphaValObj).slice(20);
+        tableRefRowsHtmlStr+=`<thead><tr align="center"><th colspan="2">${alphaKeyList.join("</th><th colspan='2'>")}</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<tbody><tr align="center"><td>${alphaValList.join(`</td><td>${copyBtnHtmlStr}</td><td>`)}</td><td>${copyBtnHtmlStr}</td></tr></tbody>`;
+        tableRefRowsHtmlStr+=`<table>`;
+
+        tableRefRowsHtmlStr+=`<br>`;
+        var symbolValObj=barCharMapper["Symbol"];
+        var symbolKeyList=Object.keys(symbolValObj);
+        var symbolValList=Object.values(symbolValObj);
+        tableRefRowsHtmlStr+=`<table class="table table-bordered">`;
+        // tableRefRowsHtmlStr+=`<thead><tr><th colspan="${symbolKeyList.length*2}">🟦 Symbol</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<thead><tr align="center"><th colspan="2">${symbolKeyList.join("</th><th colspan='2'>")}</th></tr></thead>`;
+        tableRefRowsHtmlStr+=`<tbody><tr align="center"><td>${symbolValList.join(`</td><td>${copyBtnHtmlStr}</td><td>`)}</td><td>${copyBtnHtmlStr}</td></tr></tbody>`;
+        tableRefRowsHtmlStr+=`<table>`;
+
+        tableRef.innerHTML = tableRefRowsHtmlStr;
+
+        var copyBtnList=document.getElementsByClassName("copy-btn");
+        for(var c in copyBtnList) {
+          if(!isNaN(c)) {
+            copyBtnList[c].addEventListener("click", (evt) => {
+              var barcodeChars=evt.srcElement.offsetParent.previousElementSibling.innerText;
+              navigator.clipboard.writeText(barcodeChars);
+            });
+          }
+        }
+
+        var renderBarcodeBtn=document.getElementById("renderBarcodeBtn");
+        var barcodeText=document.getElementById("barcodeText");
+        var barcodeDisplay=document.getElementById("barcodeDisplay");
+        var barcodeSymbolDisplay=document.getElementById("barcodeSymbolDisplay");
+
+        var copyBarcodeSymbolDisplay=document.getElementById("copyBarcodeSymbolDisplay");
+        copyBarcodeSymbolDisplay.addEventListener("click", (evt) => {
+           barcodeSymbolDisplay.select();
+           barcodeSymbolDisplay.setSelectionRange(0, 99999); /* For mobile devices */
+           navigator.clipboard.writeText(barcodeSymbolDisplay.value);
+        });
+
+        var barcodeSymbolMapping={
+          ...numericalValObj,
+          ...alphaValObj,
+          ...symbolValObj
+        };
+
+        var initTxt="LOREM IPSUM";
+        var charBarcodeMapper={
+            "0":"B2 W2 B2 W5 B5 W2 B5 W2 B2 W2","1":"B5 W2 B2 W5 B2 W2 B2 W2 B5 W2","2":"B2 W2 B5 W5 B2 W2 B2 W2 B5 W2",
+            "3":"B5 W2 B5 W5 B2 W2 B2 W2 B2 W2","4":"B2 W2 B2 W5 B5 W2 B2 W2 B5 W2","5":"B5 W2 B2 W5 B5 W2 B2 W2 B2 W2",
+            "6":"B2 W2 B5 W5 B5 W2 B2 W2 B2 W2","7":"B2 W2 B2 W5 B2 W2 B5 W2 B5 W2","8":"B5 W2 B2 W5 B2 W2 B5 W2 B2 W2",
+            "9":"B2 W2 B5 W5 B2 W2 B5 W2 B2 W2","*":"B2 W5 B2 W2 B5 W2 B5 W2 B2 W2","A":"B5 W2 B2 W2 B2 W5 B2 W2 B5 W2",
+            "B":"B2 W2 B5 W2 B2 W5 B2 W2 B5 W2","C":"B5 W2 B5 W2 B2 W5 B2 W2 B2 W2","D":"B2 W2 B2 W2 B5 W5 B2 W2 B5 W2",
+            "E":"B5 W2 B2 W2 B5 W5 B2 W2 B2 W2","F":"B2 W2 B5 W2 B5 W5 B2 W2 B2 W2","G":"B2 W2 B2 W2 B2 W5 B5 W2 B5 W2",
+            "H":"B5 W2 B2 W2 B2 W5 B5 W2 B2 W2","I":"B2 W2 B5 W2 B2 W5 B5 W2 B2 W2","J":"B2 W2 B2 W2 B5 W5 B5 W2 B2 W2",
+            "K":"B5 W2 B2 W2 B2 W2 B2 W5 B5 W2","L":"B2 W2 B5 W2 B2 W2 B2 W5 B5 W2","M":"B5 W2 B5 W2 B2 W2 B2 W5 B2 W2",
+            "N":"B2 W2 B2 W2 B5 W2 B2 W5 B5 W2","O":"B5 W2 B2 W2 B5 W2 B2 W5 B2 W2","P":"B2 W2 B5 W2 B5 W2 B2 W5 B2 W2",
+            "Q":"B2 W2 B2 W2 B2 W2 B5 W5 B5 W2","R":"B5 W2 B2 W2 B2 W2 B5 W5 B2 W2","S":"B2 W2 B5 W2 B2 W2 B5 W5 B2 W2",
+            "T":"B2 W2 B2 W2 B5 W2 B5 W5 B2 W2","U":"B5 W5 B2 W2 B2 W2 B2 W2 B5 W2","V":"B2 W5 B5 W2 B2 W2 B2 W2 B5 W2",
+            "W":"B5 W5 B5 W2 B2 W2 B2 W2 B2 W2","X":"B2 W5 B2 W2 B5 W2 B2 W2 B5 W2","Y":"B5 W5 B2 W2 B5 W2 B2 W2 B2 W2",
+            "Z":"B2 W5 B5 W2 B5 W2 B2 W2 B2 W2","-":"B2 W5 B2 W2 B2 W2 B5 W2 B5 W2",",":"B5 W5 B2 W2 B2 W2 B5 W2 B2 W2",
+            "$":"B2 W5 B2 W5 B2 W5 B2 W2 B2 W2","/":"B2 W5 B2 W5 B2 W2 B2 W5 B2 W2","+":"B2 W5 B2 W2 B2 W5 B2 W5 B2 W2",
+            "%":"B2 W2 B2 W5 B2 W5 B2 W5 B2 W2","_":"B2 W5 B5 W2 B2 W2 B5 W2 B2 W2"
+        };
+
+        function renderBarcode(txt) {
+            let actlBarCodeText=txt;
+            actlBarCodeText=actlBarCodeText.toUpperCase();
+            actlBarCodeText=actlBarCodeText.replaceAll(' ','_');
+            barcodeText.value=actlBarCodeText;
+
+            actlBarCodeText=`*${actlBarCodeText}*`;
+
+            let barcodeSymbolDisplayStr="";
+
+            let symbolRep="";
+            for(let b in actlBarCodeText) {
+                if(!isNaN(b)) {
+                  try {
+                    let bChar=actlBarCodeText[b];
+                    if(typeof barcodeSymbolMapping[bChar]!=="undefined") {
+                      barcodeSymbolDisplayStr+=barcodeSymbolMapping[bChar];
+                    }
+                    let barcodeStr=charBarcodeMapper[bChar];
+                    let barcodeStrArr=barcodeStr.split(" ");
+                    let fullBarcodeStr="<span class='"+barcodeStrArr.join("'></span><span class='")+"'></span>";
+                    symbolRep+=fullBarcodeStr;
+                  } catch(err) {}
+                }
+            }
+            barcodeDisplay.innerHTML=symbolRep;
+            barcodeSymbolDisplay.innerHTML=barcodeSymbolDisplayStr;
+        }
+        renderBarcode(initTxt);
+        
+        renderBarcodeBtn.addEventListener("click", (e) => {
+            renderBarcode( (barcodeText.value) );
+        });
+    </script>
+    </body>
+</html>

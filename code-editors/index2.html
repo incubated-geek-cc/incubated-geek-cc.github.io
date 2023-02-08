@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+	    <meta charset='utf-8'>
+	    <meta name='description' content='line numbering textarea editor demo'>
+	    <meta name='keywords' content='line numbering,textarea,editor'>
+	    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
+	    <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />  
+	    <meta http-equiv='Content-Language' content='en' />
+  		<title>Line Numbering to Textarea Demo</title>
+  		<style>
+			.editorContainer {
+			  display: flex;
+			  flex-direction: row;
+			  line-height: 14pt;
+			}
+
+			.editorContainer textarea {
+			  font-size:12pt;
+			  overflow: auto;
+			  height:300px;
+			  width:600px;
+			  resize: none;
+			  line-height: 14pt;
+			}
+
+			.linenumber-scroller {
+			  height: 300px;
+			  overflow: hidden;
+			}
+
+			.linenumbers {
+			  height:auto;
+			  width: 4em;
+			  background-color:black;
+			  color:white;
+			  text-align: right;
+			}
+
+			.linenumbers span {
+			  display: block;
+			  font-size:12pt;
+			  line-height: 14pt;
+			}
+  		</style>
+  		<noscript>You need to enable JavaScript to run this app.</noscript>
+	</head>
+	<body>
+		<h2>📝 Code Editor</h2>
+		<div class="editorContainer">
+	      <div class="linenumber-scroller">
+	        <div class="linenumbers" id="linenumberlist"></div>        
+	      </div>
+	      <textarea id="editor"></textarea>
+	    </div>
+
+		<script>
+			var htmlTemplateStr = "<!DOCTYPE html>"
+			+"\n<html lang='en'>"
+			+"\n	<head>"
+			+"\n		<meta charset='utf-8'>"
+			+"\n		<title>Page Title</title>"
+			+"\n	<head>"
+			+"\n	<body>"
+			+"\n		<!-- CONTENT GOES HERE -->"
+			+"\n	</body>"
+			+"\n</html>";
+
+			function removeAllChildNodes(parent) {
+			    while (parent.firstChild) {
+			        parent.removeChild(parent.firstChild);
+			    }
+			}
+
+			const editor = document.getElementById('editor');
+			const linenumbers = document.getElementById('linenumberlist');
+
+			editor.addEventListener('scroll', () => {
+			  console.log('scrolling');
+			  const amountToShift = editor.scrollTop;
+			  console.log(editor.scrollTop);
+			  linenumberlist.style.transform = `translate(0, -${amountToShift}px)`;
+			});
+			editor.addEventListener('keyup', () => {
+			  removeAllChildNodes(linenumbers);
+			  const nrOfLines = editor.value.split('\n').length;
+			  for (let i=0;i<nrOfLines;i++) {
+			    const span = document.createElement('span');
+			    span.innerText = (i+1).toString(10);
+			    linenumbers.appendChild(span);
+			  }
+			});
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+	    <meta charset='utf-8'>
+	    <meta name='description' content='line numbering textarea editor demo'>
+	    <meta name='keywords' content='line numbering,textarea,editor'>
+	    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
+	    <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />  
+	    <meta http-equiv='Content-Language' content='en' />
+  		<title>Line Numbering to Textarea Demo</title>
+  		<style>
+	  		html, body {
+  				margin:0;
+  				padding:0;
+  				width:100vw;
+  				height:100vh;
+  				overflow:hidden;
+  				font-family: lucida console, courier new, courier, monospace;
+  				font-size: 1rem;
+    			font-weight: 400;
+	  		}
+
+			#codeEditor, #lineCounter {
+				font-family: lucida console, courier new, courier, monospace;
+				margin: 0;
+			    padding: 10px 0;
+			    height: 75vh;
+			    border-radius: 0;
+			    resize: none;
+			    font-size: 16px;
+			    line-height: 1.2;
+			    outline: none;
+			    -moz-box-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    box-sizing: border-box;
+			}
+			#codeEditor {
+			    padding-left: calc(3.5rem + 5px);
+			    width:100%;
+			    /* Determine appearance of code editor */
+			    background-color:#272822;
+			    border-color:#272822;
+			    color:#ffffff;
+			}
+			#lineCounter {
+			    display: flex;
+			    border-color: transparent;
+			    overflow-y: hidden;
+			    text-align: right;
+			    box-shadow: none;
+			    color: #707070;
+			    background-color: #d8d8d8;
+			    position: absolute;
+			    width: 3.5rem;
+			    /* Determine appearance of line counter */
+			    background-color:#3E3D32;
+			    border-color:#3E3D32;
+			    color:#928869;
+			}
+			#lineCounter:focus-visible,
+			#codeEditor:focus-visible {
+			    outline:none;
+			}
+  		</style>
+  		<noscript>You need to enable JavaScript to run this app.</noscript>
+	</head>
+	<body>
+		<h2>📝 Code Editor</h2>
+		<p><textarea id='lineCounter' wrap='off' readonly>1.</textarea><textarea id='codeEditor' wrap='off'></textarea></p>
+
+		<script>
+			var htmlTemplateStr = "<!DOCTYPE html>"
+			+"\n<html lang='en'>"
+			+"\n	<head>"
+			+"\n		<meta charset='utf-8'>"
+			+"\n		<title>Page Title</title>"
+			+"\n	<head>"
+			+"\n	<body>"
+			+"\n		<!-- CONTENT GOES HERE -->"
+			+"\n	</body>"
+			+"\n</html>";
+
+			var codeEditor = document.getElementById('codeEditor');
+			var lineCounter = document.getElementById('lineCounter');
+			
+			var lineCountCache = 0;
+			function line_counter() {
+		        var lineCount = codeEditor.value.split('\n').length;
+		        var outarr = new Array();
+		        if (lineCountCache != lineCount) {
+		            for (var x = 0; x < lineCount; x++) {
+		                outarr[x] = (x + 1) + '.';
+		            }
+		            lineCounter.value = outarr.join('\n');
+		        }
+		        lineCountCache = lineCount;
+			}
+
+			codeEditor.addEventListener('scroll', () => {
+				lineCounter.scrollTop = codeEditor.scrollTop;
+			    lineCounter.scrollLeft = codeEditor.scrollLeft;
+			});
+
+			codeEditor.addEventListener('input', () => {
+				line_counter();
+			});
+
+			codeEditor.addEventListener('keydown', (e) => {
+			    let { keyCode } = e;
+			    let { value, selectionStart, selectionEnd } = codeEditor;
+
+			    if (keyCode === 9) {  // TAB = 9
+			      e.preventDefault();
+			      codeEditor.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
+			      codeEditor.setSelectionRange(selectionStart+2, selectionStart+1)
+			    }
+		  	});
+
+		  	codeEditor.value = htmlTemplateStr;
+		  	line_counter();
+		</script>
+	</body>
+</html>

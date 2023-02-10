@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" class="notranslate" translate="no">
+    <head>
+        <meta name="google" content="notranslate" />
+        <meta charset="UTF-8">
+        <meta name="description" content="Create a custom favicon.ico file.">
+        <meta name="keywords" content="Canvas,Image,Favicon,Encode">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />  
+        <meta http-equiv="Content-Language" content="en" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />  
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <title>Raw HTML String ⇆ HTML Characters</title>
+    <head>
+        <style>
+          html,body {
+            font-family: consolas, sans-serif;
+            padding:0;
+            margin:0;
+          }
+          body {
+            padding:4px;
+            width: calc(100vw - 8px);
+            height: calc(100vh - 8px);
+            overflow-x:hidden;
+            overflow-y:auto;
+          }
+          table {        
+            border-collapse: collapse;
+            width: 100%;
+          }
+          td, 
+          th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 2px;
+          }
+          table tr:nth-child(2) th:nth-child(2),
+          table :nth-child(3) th:nth-child(1) {
+            vertical-align: bottom;
+            text-align:center;
+          }
+          table :nth-child(3) th:nth-child(1) {
+            vertical-align: top;
+          }
+          textarea,
+          textarea:active {
+            height: 70vh;
+            width: calc(100% - 8px);
+            overflow-x:hidden;
+            overflow-y:auto;
+            resize:none;
+            background:transparent;
+            border: 1px solid #101010;
+          }
+
+          button {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #fff;
+            background-color: #5bc0de;
+            border-color: #46b8da;
+          }
+
+          button:hover,
+          button:active {
+              color: #fff;
+              background-color: #269abc;
+              border-color: #1b6d85;
+          }
+
+        </style>
+      </head>
+      <body>
+        <table>
+          <tr><th>Raw HTML String</th><td></td><th>HTML Characters</th></tr>
+          <tr>
+            <td rowspan='2'><textarea id="inputTextArea"></textarea></td>
+            <th><button type="button" id="convertHTMLToChar">⇾</button></th>
+            <td rowspan='2'><textarea id="outputTextArea"></textarea></td>
+          </tr>
+          <tr>
+            <th><button type="button" id="convertCharToHTML">⇽</button></th>
+          </tr>
+        </table>
+      </body>
+      <script type="text/javascript">
+        // function encodeHTMLEntities(text) {
+        //   let textArea = document.createElement('textarea');
+        //   textArea.innerText = text;
+        //   let encodedOutput=textArea.innerHTML;
+        //   let arr=encodedOutput.split('<br>');
+        //   encodedOutput=arr.join('\n');
+        //   return encodedOutput;
+        // }
+        // function decodeHTMLEntities(text) {
+        //   let textArea = document.createElement('textarea');
+        //   textArea.innerHTML = text;
+        //   return textArea.value;
+        // }
+
+        function encodeHTMLEntities(rawStr) {
+          return rawStr.replace(/[\u00A0-\u9999<>\&]/g, ((i) => `&#${i.charCodeAt(0)};`));
+        }
+        function decodeHTMLEntities(rawStr) {
+          return rawStr.replace(/&#(\d+);/g, ((match, dec) => `${String.fromCharCode(dec)}`));
+        }
+
+        // <py-env></py-env>
+        var sampleRawHTMLStr="<py-script></py-script>";
+        
+        var inputTextArea=document.getElementById("inputTextArea");
+        var outputTextArea=document.getElementById("outputTextArea");
+
+        inputTextArea.addEventListener('keydown', (e) => {
+          let { key } = e;
+          let { shiftKey } = e;
+          let { value, selectionStart, selectionEnd } = inputTextArea;
+          if (key === 'Tab') {
+            e.preventDefault();
+
+            if(shiftKey) {
+              inputTextArea.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
+              inputTextArea.setSelectionRange(selectionStart-1, selectionEnd-1);
+            } else if(!shiftKey) {
+              inputTextArea.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
+              inputTextArea.setSelectionRange(selectionStart+2, selectionStart+1);
+            }
+          }
+        });
+
+        outputTextArea.addEventListener('keydown', (e) => {
+          let { key } = e;
+          let { shiftKey } = e;
+          let { value, selectionStart, selectionEnd } = outputTextArea;
+          if (key === 'Tab') {
+            e.preventDefault();
+
+            if(shiftKey) {
+              outputTextArea.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
+              outputTextArea.setSelectionRange(selectionStart-1, selectionEnd-1);
+            } else if(!shiftKey) {
+              outputTextArea.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
+              outputTextArea.setSelectionRange(selectionStart+2, selectionStart+1);
+            }
+          }
+        });
+
+        inputTextArea.value=sampleRawHTMLStr;
+
+        var convertHTMLToChar=document.getElementById("convertHTMLToChar");
+        var convertCharToHTML=document.getElementById("convertCharToHTML");
+        
+        convertHTMLToChar.onclick=function(e) {
+          inputTextArea.style.color="#cccccc";
+          outputTextArea.style.color="green";
+          let encodedOutput=encodeHTMLEntities(inputTextArea.value);
+          outputTextArea.value=encodedOutput;
+        };
+        convertCharToHTML.onclick=function(e) {
+          inputTextArea.style.color="green";
+          outputTextArea.style.color="#cccccc";
+          let encodedOutput=outputTextArea.value;
+          let decodedOutput=decodeHTMLEntities(encodedOutput);
+          inputTextArea.value=decodedOutput;
+        };
+  </script>
+</html>

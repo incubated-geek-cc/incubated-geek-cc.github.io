@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang='en' class='notranslate' translate='no'>
+    <head>
+      <meta name='google' content='notranslate' />
+      <meta charset='UTF-8'>
+      <meta name='description' content='Convert SVGs to PNG Demo.'>
+      <meta name='keywords' content='HTML,JavaScript,CSS'>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
+      <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />  
+      <meta http-equiv='Content-Language' content='en' />
+      <title>Changing Image Hue Display | Uses HTML5 Canvas</title>
+      <style>
+          html, body {
+            padding:0;
+            margin:0;
+            overflow:hidden;
+          }
+          body {
+            height:100vh;
+            padding: 0.25em 0.45em;
+            margin: 0;
+            overflow:hidden;
+            overflow-y:auto;
+            font-family: Arial;
+            font-size: 1em;
+          }
+          table {
+              border-collapse: collapse;
+              font-weight: 400;
+              text-decoration: none;
+              vertical-align: middle;
+              font-size: 1rem;
+              font-family:Arial;
+          }
+          .table {
+              width: 75vw;
+              max-width: calc(75vw - 2.75rem);
+              margin-bottom: 1rem;
+              background-color: transparent;
+          }
+          .table-bordered {
+              border: 1px solid #dee2e6;
+          }
+          th {
+              text-align: inherit;
+          }
+          .table-bordered td, .table-bordered th {
+              border: 1px solid #dee2e6;
+          }
+          .table td, .table th {
+              padding: 0.25rem;
+              vertical-align: middle;
+              border-top: 1px solid #dee2e6;
+          }
+          .table-bordered thead td, 
+          .table-bordered thead th {
+              border-bottom-width: 2px;
+          }
+          .table thead th {
+              vertical-align: middle;
+              border-bottom: 2px solid #dee2e6;
+          }
+          input[type=file] {
+                display:none;
+              }
+          .btn {
+              display: inline-block;
+              align-self: center;
+              font-weight: 400;
+              line-height: 1.5;
+              color: #212529;
+              text-align: center;
+              text-decoration: none;
+              vertical-align: middle;
+              cursor: pointer;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              user-select: none;
+              background-color: transparent;
+              border: 1px solid transparent;
+              padding: calc(0.0rem + 6.5px) calc(0.375rem + 6px);
+              font-size: small;
+              transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+              border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .btn {
+              transition: none;
+            }
+          }
+          .btn:hover {
+              color: #212529;
+          }
+          .btn-check:focus + .btn,
+          .btn:focus {
+              outline: 0;
+              box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+          }
+          .btn.disabled,
+          .btn:disabled,
+          fieldset:disabled .btn {
+              pointer-events:none;
+              opacity: 0.65;
+          }
+          .btn-outline-info {
+              color: #0dcaf0;
+              border-color: #0dcaf0;
+          }
+          .btn-outline-info:hover {
+              color: #000;
+              background-color: #0dcaf0;
+              border-color: #0dcaf0;
+          }
+          .btn-check:focus + .btn-outline-info,
+          .btn-outline-info:focus {
+              box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5);
+          }
+          .btn-check:active + .btn-outline-info,
+          .btn-check:checked + .btn-outline-info,
+          .btn-outline-info.active,
+          .btn-outline-info.dropdown-toggle.show,
+          .btn-outline-info:active {
+              color: #000;
+              background-color: #0dcaf0;
+              border-color: #0dcaf0;
+          }
+          .btn-check:active + .btn-outline-info:focus,
+          .btn-check:checked + .btn-outline-info:focus,
+          .btn-outline-info.active:focus,
+          .btn-outline-info.dropdown-toggle.show:focus,
+          .btn-outline-info:active:focus {
+              box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5);
+          }
+          .btn-outline-info.disabled,
+          .btn-outline-info:disabled {
+            color: #0dcaf0;
+            background-color: transparent;
+          }
+          .btn-outline-dark {
+            color: #212529;
+            border-color: #212529;
+          }
+          .btn-outline-dark:hover {
+            color: #fff;
+            background-color: #212529;
+            border-color: #212529;
+          }
+          .btn-check:focus + .btn-outline-dark,
+          .btn-outline-dark:focus {
+            box-shadow: 0 0 0 0.25rem rgba(33, 37, 41, 0.5);
+          }
+          .btn-check:active + .btn-outline-dark,
+          .btn-check:checked + .btn-outline-dark,
+          .btn-outline-dark.active,
+          .btn-outline-dark.dropdown-toggle.show,
+          .btn-outline-dark:active {
+            color: #fff;
+            background-color: #212529;
+            border-color: #212529;
+          }
+          .btn-check:active + .btn-outline-dark:focus,
+          .btn-check:checked + .btn-outline-dark:focus,
+          .btn-outline-dark.active:focus,
+          .btn-outline-dark.dropdown-toggle.show:focus,
+          .btn-outline-dark:active:focus {
+            box-shadow: 0 0 0 0.25rem rgba(33, 37, 41, 0.5);
+          }
+          .btn-outline-dark.disabled,
+          .btn-outline-dark:disabled {
+            color: #212529;
+            background-color: transparent;
+          }
+
+          #previewPNG {
+            border:1px dashed #6c757d;
+            margin:0 auto;
+            padding:0;
+            height:150px;
+            width:150px;
+          }
+
+          #tableContent {
+            margin: 0 auto;
+          }
+          #header {
+            text-align: center;
+          }
+      </style>
+    </head>
+    <body>
+      <div id='header'><h1>Change Image Hue Display</h1><a href='#' target='_blank'>How To Change Image Hue With HTML5 Canvas In JavaScript</a>✏️</div>
+      <table id='tableContent' class='table table-bordered'>
+        <thead>
+          <tr>
+            <th>👆 <small>Start Here</small> ➜
+            <button id='uploadFileBtn' type='button' class='btn btn-outline-dark'>📂 Select File…<input id='uploadFile' type='file' accept='.png,.jpg' /></button></th>
+            <td align='center'>
+              <div id='previewPNG'></div>
+              <small>(thumbnail preview)</small>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th width='50%'>File Name</th><td><span id='fileName'>---</span></td>
+          </tr>
+          <tr>
+            <th>File Type</th><td><span id='fileType'>---</span></td>
+          </tr>
+          <tr>
+            <th>File Dimensions</th><td><span id='fileDimensions'>---</span></td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr>
+            <th rowspan="2">💾 Save As Image</th>
+            <td>
+              <select id='selectHue'>
+                <option value='original'>original</option>
+                <option value='invert'>invert</option>
+                <option value='grayscale'>grayscale</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><span id='downloadLink'>---</span></td>
+          <tr>
+        </thead>
+      </table>
+
+    <script>
+      if (document.readyState === 'complete' || document.readyState !== 'loading' && !document.documentElement.doScroll) {
+          callback();
+        } else {
+            document.addEventListener('DOMContentLoaded', async() => {
+              console.log('DOMContentLoaded');
+                const scale = window.devicePixelRatio*2;
+                const displaySize=150;
+
+                var _ZOOM_FACTOR=1.0;
+
+                var imgH = 0;
+                var imgW = 0;
+                var _img;
+                var _canvas;
+                var uploadFileName;
+                
+                
+                const selectHue = document.getElementById('selectHue');
+
+                const allHues={};
+                const hueOption = selectHue.children;
+                for(let option of hueOption) {
+                    allHues[option.innerText]=false;
+                }
+                
+
+                const downloadLink=document.getElementById('downloadLink');
+                const uploadFileBtn=document.getElementById('uploadFileBtn');
+                const uploadFile=document.getElementById('uploadFile');
+                const previewPNG=document.getElementById('previewPNG');
+
+                const fileName = document.getElementById('fileName');
+                const fileType = document.getElementById('fileType');
+
+                const fileDimensions = document.getElementById('fileDimensions');
+                uploadFileBtn.addEventListener('click', ()=> {
+                    let clickEvent = new MouseEvent('click', { view: window, bubbles: false, cancelable: false });
+                    uploadFile.dispatchEvent(clickEvent);
+                }, false);
+
+                function updateDownloadLink() {
+                  let dwnLink=document.createElement('a');
+                  dwnLink.download=uploadFileName.substr(0,uploadFileName.lastIndexOf('.'))+'.png';
+                  dwnLink.href=_canvas.toDataURL();
+                  dwnLink.innerText='🔗 Link';
+                  downloadLink.innerHTML=dwnLink.outerHTML;
+                }
+                
+                const loadImage = (url) => new Promise((resolve, reject) => {
+                  const img = new Image(); // alt: document.createElement('img')
+                  img.addEventListener('load', () => resolve(img));
+                  img.addEventListener('error', (err) => reject(err));
+                  img.src = url;
+                });
+
+                function readFileAsDataURL(file) {
+                  return new Promise((resolve,reject) => {
+                      let fileredr = new FileReader();
+                      fileredr.onload = () => resolve(fileredr.result);
+                      fileredr.onerror = () => reject(fileredr);
+                      fileredr.readAsDataURL(file);
+                  });
+                }
+
+                function getGrayScaleHueImgData(i,imgData) {
+                  let red = imgData.data[i];
+                  let green = imgData.data[i + 1];
+                  let blue = imgData.data[i + 2];
+                  let alpha = imgData.data[i + 3];
+                      
+                  let gray = (red + green + blue) / 3;
+                      
+                  imgData.data[i] = gray;
+                  imgData.data[i + 1] = gray;
+                  imgData.data[i + 2] = gray;
+                  imgData.data[i + 3] = alpha;
+                  return Promise.resolve(imgData);
+                }
+
+                function getInvertHueImgData(i,imgData) {
+                  let red = imgData.data[i];
+                  let green = imgData.data[i + 1];
+                  let blue = imgData.data[i + 2];
+                  let alpha = 255;
+
+                  imgData.data[i] = 255 - red;
+                  imgData.data[i + 1] = 255 - green;
+                  imgData.data[i + 2] = 255 - blue;
+                  imgData.data[i + 3] = 255;
+                  return Promise.resolve(imgData);
+                }
+
+                uploadFile.addEventListener('change', async (evt) => {
+                  let file = evt.currentTarget.files[0];
+                  if(!file) return;
+
+                  uploadFileName=file.name;
+                  fileName.innerHTML=uploadFileName;
+                  fileType.innerHTML=file.type;
+                  let b64str = await readFileAsDataURL(file);
+                  _img=await loadImage(b64str);
+
+                  // set sizes in memory
+                  imgH=_img.naturalHeight;
+                  imgW=_img.naturalWidth;
+
+                  fileDimensions.innerHTML=(`${imgW}px × ${imgH}px`);
+                 
+
+                  _img['style']['width']=`${Math.round(imgW/scale)}px`;
+                  _img['style']['height']=`${Math.round(imgH/scale)}px`;
+                  
+                  _canvas=document.createElement('canvas');
+
+                  _canvas.width=imgW;
+                  _canvas.height=imgH;
+
+                  _canvas['style']['width'] = `${Math.round(imgW/scale)}px`;
+                  _canvas['style']['height'] = `${Math.round(imgH/scale)}px`;
+                  _canvas['style']['margin'] = '0';
+                  _canvas['style']['padding'] = '0';
+                  _canvas['style']['background'] = 'transparent';
+
+                  _canvas.getContext('2d').scale(scale, scale);
+                  _canvas.getContext('2d').drawImage(_img, 0, 0, Math.round(imgW/scale), Math.round(imgH/scale));
+
+                  previewPNG.appendChild(_canvas);
+
+
+                  // display size
+                  _ZOOM_FACTOR=displaySize/parseFloat(_canvas['style']['width'].replace('px',''));
+                  imgH =_ZOOM_FACTOR*parseFloat(_img['style']['height'].replace('px',''));
+                  imgW =_ZOOM_FACTOR*parseFloat(_img['style']['width'].replace('px',''));
+                  _img['style']['height'] = `${imgH}px`;
+                  _img['style']['width'] = `${imgW}px`;
+                  
+                  _canvas['style']['width'] = `${Math.round(imgW)}px`;
+                  _canvas['style']['height'] = `${Math.round(imgH)}px`;
+                  _canvas['style']['margin'] = '0';
+                  _canvas['style']['padding'] = '0';
+                  _canvas['style']['background'] = 'transparent';
+
+                  _canvas.getContext('2d').scale(scale, scale);
+                  _canvas.getContext('2d').drawImage(_img, 0, 0, Math.round(imgW), Math.round(imgH));
+
+                  updateDownloadLink();
+
+
+                  const originalImgData0 = _canvas.getContext("2d").getImageData(0, 0, _canvas.width, _canvas.height);
+                  allHues['original']=originalImgData0;
+                  const originalImgData1 = _canvas.getContext("2d").getImageData(0, 0, _canvas.width, _canvas.height);
+                  const originalImgData2 = _canvas.getContext("2d").getImageData(0, 0, _canvas.width, _canvas.height);
+                  
+                  for (let i = 0; i < originalImgData1.data.length; i += 4) {
+                    let promise=await getInvertHueImgData(i,originalImgData1);
+                  }
+                  allHues['invert']=originalImgData1;
+              
+                  for (i = 0; i < originalImgData2.data.length; i += 4) {
+                    let promise=await getGrayScaleHueImgData(i,originalImgData2);
+                  }
+                  allHues['grayscale']=originalImgData2;
+
+                  selectHue.addEventListener('change', async(evt) => {
+                      let selectedValue=evt.target.value;
+                      const ctx = _canvas.getContext("2d");
+
+                      ctx.putImageData(allHues[selectedValue], 0, 0);
+                      updateDownloadLink();
+                  });
+                  
+                  
+              }, false);
+        });
+      }
+    </script>
+    </body>
+</html>

@@ -20,7 +20,7 @@
             height:100vh;
             padding: 0.25em 0.45em;
             margin: 0;
-            overflow:hidden;
+            overflow:auto;
             overflow-y:auto;
             font-family: Arial;
             font-size: 1em;
@@ -202,15 +202,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th width='50%'>File Name</th><td><span id='fileName'>---</span></td>
-          </tr>
-          <tr>
-            <th>File Type</th><td><span id='fileType'>---</span></td>
-          </tr>
-          <tr>
-            <th>File Dimensions</th><td><span id='fileDimensions'>---</span></td>
-          </tr>
+          <tr><th width='50%'>File Name</th><td><span id='fileName'>---</span></td></tr>
+          <tr><th>File Type</th><td><span id='fileType'>---</span></td></tr>
+          <tr><th>File Size</th><td><span id='fileSize'>---</span></td></tr>
+          <tr><th>Original Image Dimensions</th><td><span id='imgDimensions'>---</span></td></tr>
+          <tr><th>Last Modified</th><td><span id='lastModified'>---</span></td></tr>
         </tbody>
         <thead>
           <tr>
@@ -235,36 +231,96 @@
         } else {
             document.addEventListener('DOMContentLoaded', async() => {
               console.log('DOMContentLoaded');
+
                 const scale = window.devicePixelRatio*2;
-                const displaySize=150;
+                const requiredSize=150;
+                const byteToKBScale = 0.0009765625;
 
                 var _ZOOM_FACTOR=1.0;
 
                 var imgH = 0;
                 var imgW = 0;
+
                 var _img;
                 var _canvas;
+
+                function scaleCanvas(_CANVAS, _IMG, _ZOOM_FACTOR,imgH, imgW, scale) {
+                    _CANVAS['style']['height'] = `${imgH}px`;
+                    _CANVAS['style']['width'] = `${imgW}px`;
+
+                    let cWidth=_ZOOM_FACTOR*imgW*scale;
+                    let cHeight=_ZOOM_FACTOR*imgH*scale;
+
+                    _CANVAS.width=cWidth;
+                    _CANVAS.height=cHeight;
+
+                    _CANVAS.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
+                    _CANVAS.getContext("2d", { willReadFrequently: true }).drawImage(_IMG, 0, 0, imgW*_ZOOM_FACTOR, imgH*_ZOOM_FACTOR);
+                }
+
                 var uploadFileName;
                 
+                const monthsAbbr=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                const millisecondsToDateStr = (milliseconds) => { // in milliseconds
+                    const dateObject = new Date(milliseconds);
+
+                    const dateYear= dateObject.getFullYear();
+                    const dateMth= monthsAbbr[dateObject.getMonth()];
+                    const dateDay= ((dateObject.getDate())<10) ? `0${(dateObject.getDate())}` : (dateObject.getDate());
+
+                    const humanDateFormat = `${dateDay} ${dateMth} ${dateYear}`;
+
+                    return humanDateFormat;
+                };
+
                 
                 const selectHue = document.getElementById('selectHue');
-
                 const allHues={};
                 const hueOption = selectHue.children;
                 for(let option of hueOption) {
                     allHues[option.innerText]=false;
                 }
-                
+                function getGrayScaleHueImgData(i,imgData) {
+                  let red = imgData.data[i];
+                  let green = imgData.data[i + 1];
+                  let blue = imgData.data[i + 2];
+                  let alpha = imgData.data[i + 3];
+                      
+                  let gray = (red + green + blue) / 3;
+                      
+                  imgData.data[i] = gray;
+                  imgData.data[i + 1] = gray;
+                  imgData.data[i + 2] = gray;
+                  imgData.data[i + 3] = alpha;
+                  return Promise.resolve(imgData);
+                }
 
-                const downloadLink=document.getElementById('downloadLink');
-                const uploadFileBtn=document.getElementById('uploadFileBtn');
-                const uploadFile=document.getElementById('uploadFile');
+                function getInvertHueImgData(i,imgData) {
+                  let red = imgData.data[i];
+                  let green = imgData.data[i + 1];
+                  let blue = imgData.data[i + 2];
+                  let alpha = 255;
+
+                  imgData.data[i] = 255 - red;
+                  imgData.data[i + 1] = 255 - green;
+                  imgData.data[i + 2] = 255 - blue;
+                  imgData.data[i + 3] = 255;
+                  return Promise.resolve(imgData);
+                }
+
                 const previewPNG=document.getElementById('previewPNG');
 
-                const fileName = document.getElementById('fileName');
-                const fileType = document.getElementById('fileType');
+                const uploadFileBtn=document.getElementById('uploadFileBtn');
+                const uploadFile=document.getElementById('uploadFile');
 
-                const fileDimensions = document.getElementById('fileDimensions');
+                const fileName=document.getElementById('fileName');
+                const fileSize=document.getElementById('fileSize');
+                const imgDimensions=document.getElementById('imgDimensions');
+                const fileType=document.getElementById('fileType');
+                const lastModified=document.getElementById('lastModified');
+
+                const downloadLink=document.getElementById('downloadLink');
+                
                 uploadFileBtn.addEventListener('click', ()=> {
                     let clickEvent = new MouseEvent('click', { view: window, bubbles: false, cancelable: false });
                     uploadFile.dispatchEvent(clickEvent);
@@ -294,56 +350,33 @@
                   });
                 }
 
-                function getGrayScaleHueImgData(i,imgData) {
-                  let red = imgData.data[i];
-                  let green = imgData.data[i + 1];
-                  let blue = imgData.data[i + 2];
-                  let alpha = imgData.data[i + 3];
-                      
-                  let gray = (red + green + blue) / 3;
-                      
-                  imgData.data[i] = gray;
-                  imgData.data[i + 1] = gray;
-                  imgData.data[i + 2] = gray;
-                  imgData.data[i + 3] = alpha;
-                  return Promise.resolve(imgData);
-                }
-
-                function getInvertHueImgData(i,imgData) {
-                  let red = imgData.data[i];
-                  let green = imgData.data[i + 1];
-                  let blue = imgData.data[i + 2];
-                  let alpha = 255;
-
-                  imgData.data[i] = 255 - red;
-                  imgData.data[i + 1] = 255 - green;
-                  imgData.data[i + 2] = 255 - blue;
-                  imgData.data[i + 3] = 255;
-                  return Promise.resolve(imgData);
-                }
+                
 
                 uploadFile.addEventListener('change', async (evt) => {
                   let file = evt.currentTarget.files[0];
                   if(!file) return;
 
                   uploadFileName=file.name;
-                  fileName.innerHTML=uploadFileName;
+                  fileName.innerHTML=file.name;
+                  fileSize.innerHTML=`${(parseFloat(file.size) * byteToKBScale).toFixed(2)} 🇰🇧`;
                   fileType.innerHTML=file.type;
-                  let b64str = await readFileAsDataURL(file);
-                  _img=await loadImage(b64str);
+                  lastModified.innerHTML=millisecondsToDateStr(file.lastModified);
 
+                  let b64str = await readFileAsDataURL(file);
+                  _img=await loadImage(b64str); 
+                  
                   // set sizes in memory
                   imgH=_img.naturalHeight;
                   imgW=_img.naturalWidth;
+                  imgDimensions.innerHTML=(`${imgW}px × ${imgH}px`);
 
-                  fileDimensions.innerHTML=(`${imgW}px × ${imgH}px`);
-                 
-
-                  _img['style']['width']=`${Math.round(imgW/scale)}px`;
-                  _img['style']['height']=`${Math.round(imgH/scale)}px`;
+                  previewPNG['style']['height']=`${Math.round(imgH/scale)}px`;
+                  previewPNG['style']['width']=`${Math.round(imgW/scale)}px`;
                   
-                  _canvas=document.createElement('canvas');
+                  _img['style']['height']=`${Math.round(imgH/scale)}px`;
+                  _img['style']['width']=`${Math.round(imgW/scale)}px`;
 
+                  _canvas=document.createElement('canvas');
                   _canvas.width=imgW;
                   _canvas.height=imgH;
 
@@ -351,37 +384,39 @@
                   _canvas['style']['height'] = `${Math.round(imgH/scale)}px`;
                   _canvas['style']['margin'] = '0';
                   _canvas['style']['padding'] = '0';
-                  _canvas['style']['background'] = 'transparent';
 
-                  _canvas.getContext('2d').scale(scale, scale);
-                  _canvas.getContext('2d').drawImage(_img, 0, 0, Math.round(imgW/scale), Math.round(imgH/scale));
-
+                  _canvas.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
+                  _canvas.getContext("2d", { willReadFrequently: true }).drawImage(_img, 0, 0, Math.round(imgW/scale), Math.round(imgH/scale));
+                  
                   previewPNG.appendChild(_canvas);
 
 
-                  // display size
-                  _ZOOM_FACTOR=displaySize/parseFloat(_canvas['style']['width'].replace('px',''));
-                  imgH =_ZOOM_FACTOR*parseFloat(_img['style']['height'].replace('px',''));
-                  imgW =_ZOOM_FACTOR*parseFloat(_img['style']['width'].replace('px',''));
-                  _img['style']['height'] = `${imgH}px`;
-                  _img['style']['width'] = `${imgW}px`;
-                  
-                  _canvas['style']['width'] = `${Math.round(imgW)}px`;
-                  _canvas['style']['height'] = `${Math.round(imgH)}px`;
-                  _canvas['style']['margin'] = '0';
-                  _canvas['style']['padding'] = '0';
-                  _canvas['style']['background'] = 'transparent';
+                  var scaleFactor=requiredSize/Math.min(`${Math.round(imgH/scale)}`,`${Math.round(imgW/scale)}`);
 
-                  _canvas.getContext('2d').scale(scale, scale);
-                  _canvas.getContext('2d').drawImage(_img, 0, 0, Math.round(imgW), Math.round(imgH));
+                  _canvas.width=imgW*scaleFactor;
+                  _canvas.height=imgH*scaleFactor;
+
+                  _canvas['style']['height'] = `${Math.round(imgH/scale)*scaleFactor}px`;
+                  _canvas['style']['width'] = `${Math.round(imgW/scale)*scaleFactor}px`;
+
+                  _img['style']['height']=`${Math.round(imgH/scale)*scaleFactor}px`;
+                  _img['style']['width']=`${Math.round(imgW/scale)*scaleFactor}px`;
+
+                  previewPNG['style']['height']=`${Math.round(imgH/scale)*scaleFactor}px`;
+                  previewPNG['style']['width']=`${Math.round(imgW/scale)*scaleFactor}px`;
+
+                  _canvas.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
+                  _canvas.getContext("2d", { willReadFrequently: true }).drawImage(_img, 0, 0, `${Math.round(imgW/scale)*scaleFactor}`, `${Math.round(imgH/scale)*scaleFactor}`);
 
                   updateDownloadLink();
 
 
-                  const originalImgData0 = _canvas.getContext("2d").getImageData(0, 0, _canvas.width, _canvas.height);
+
+                  
+                  const originalImgData0 = _canvas.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, _canvas.width, _canvas.height);
                   allHues['original']=originalImgData0;
-                  const originalImgData1 = _canvas.getContext("2d").getImageData(0, 0, _canvas.width, _canvas.height);
-                  const originalImgData2 = _canvas.getContext("2d").getImageData(0, 0, _canvas.width, _canvas.height);
+                  const originalImgData1 = _canvas.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, _canvas.width, _canvas.height);
+                  const originalImgData2 = _canvas.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, _canvas.width, _canvas.height);
                   
                   for (let i = 0; i < originalImgData1.data.length; i += 4) {
                     let promise=await getInvertHueImgData(i,originalImgData1);
@@ -395,12 +430,12 @@
 
                   selectHue.addEventListener('change', async(evt) => {
                       let selectedValue=evt.target.value;
-                      const ctx = _canvas.getContext("2d");
+                      const ctx = _canvas.getContext("2d", { willReadFrequently: true });
 
                       ctx.putImageData(allHues[selectedValue], 0, 0);
                       updateDownloadLink();
                   });
-                  
+                
                   
               }, false);
         });

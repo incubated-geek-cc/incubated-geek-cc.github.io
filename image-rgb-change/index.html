@@ -189,7 +189,7 @@
       </style>
     </head>
     <body>
-      <div id='header'><h1>Change Image Hue Display</h1><a href='#' target='_blank'>How To Change Image Hue With HTML5 Canvas In JavaScript</a>✏️</div>
+      <div id='header'><h1>Change Image Hue Display</h1><a href='https://medium.com/javascript-in-plain-english/how-to-change-image-hue-with-html5-canvas-in-javascript-514f0e8226a0' target='_blank'>How To Change Image Hue With HTML5 Canvas In JavaScript</a>✏️</div>
       <table id='tableContent' class='table table-bordered'>
         <thead>
           <tr>
@@ -217,6 +217,8 @@
                 <option value='invert'>invert</option>
                 <option value='grayscale'>grayscale</option>
               </select>
+
+              <!-- <button id='saveBtn'>Save</button> -->
             </td>
           </tr>
           <tr>
@@ -243,20 +245,6 @@
 
                 var _img;
                 var _canvas;
-
-                function scaleCanvas(_CANVAS, _IMG, _ZOOM_FACTOR,imgH, imgW, scale) {
-                    _CANVAS['style']['height'] = `${imgH}px`;
-                    _CANVAS['style']['width'] = `${imgW}px`;
-
-                    let cWidth=_ZOOM_FACTOR*imgW*scale;
-                    let cHeight=_ZOOM_FACTOR*imgH*scale;
-
-                    _CANVAS.width=cWidth;
-                    _CANVAS.height=cHeight;
-
-                    _CANVAS.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
-                    _CANVAS.getContext("2d", { willReadFrequently: true }).drawImage(_IMG, 0, 0, imgW*_ZOOM_FACTOR, imgH*_ZOOM_FACTOR);
-                }
 
                 var uploadFileName;
                 
@@ -351,6 +339,40 @@
                 }
 
                 
+                function reverseScaleCanvas(_CANVAS, _IMG, _ZOOM_FACTOR, cHeight, cWidth, scale) {
+                  _CANVAS.width=cWidth;
+                  _CANVAS.height=cHeight;
+
+                  let imgW=parseFloat(cWidth/_ZOOM_FACTOR)/scale;
+                  let imgH=parseFloat(cHeight/_ZOOM_FACTOR)/scale;
+
+                  _CANVAS['style']['width'] = `${imgW}px`;
+                  _CANVAS['style']['height'] = `${imgH}px`;
+                  _CANVAS['style']['border'] = '1px dashed #6c757d';
+                  _CANVAS['style']['margin'] = '0 auto';
+                  _CANVAS['style']['display'] = 'flex';
+
+                  _CANVAS.getContext('2d').scale(scale, scale);
+                  _CANVAS.getContext('2d').drawImage(_IMG, 0, 0, imgW*_ZOOM_FACTOR, imgH*_ZOOM_FACTOR);
+                }
+
+                function scaleCanvas(_CANVAS, _IMG, _ZOOM_FACTOR,imgH, imgW, scale) {
+                    _CANVAS['style']['height'] = `${imgH*_ZOOM_FACTOR}px`;
+                    _CANVAS['style']['width'] = `${imgW*_ZOOM_FACTOR}px`;
+
+                    previewPNG['style']['width'] = `${imgW*_ZOOM_FACTOR}px`;
+                    previewPNG['style']['height'] = `${imgH*_ZOOM_FACTOR}px`;
+
+                    let cWidth=_ZOOM_FACTOR*imgW*scale;
+                    let cHeight=_ZOOM_FACTOR*imgH*scale;
+
+                    _CANVAS.width=cWidth;
+                    _CANVAS.height=cHeight;
+
+                    _CANVAS.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
+                    _CANVAS.getContext("2d", { willReadFrequently: true }).drawImage(_IMG, 0, 0, imgW*_ZOOM_FACTOR, imgH*_ZOOM_FACTOR);
+                }
+
 
                 uploadFile.addEventListener('change', async (evt) => {
                   let file = evt.currentTarget.files[0];
@@ -370,48 +392,58 @@
                   imgW=_img.naturalWidth;
                   imgDimensions.innerHTML=(`${imgW}px × ${imgH}px`);
 
-                  previewPNG['style']['height']=`${Math.round(imgH/scale)}px`;
-                  previewPNG['style']['width']=`${Math.round(imgW/scale)}px`;
-                  
+                  _canvas=document.createElement('canvas');
                   _img['style']['height']=`${Math.round(imgH/scale)}px`;
                   _img['style']['width']=`${Math.round(imgW/scale)}px`;
-
-                  _canvas=document.createElement('canvas');
-                  _canvas.width=imgW;
-                  _canvas.height=imgH;
-
-                  _canvas['style']['width'] = `${Math.round(imgW/scale)}px`;
-                  _canvas['style']['height'] = `${Math.round(imgH/scale)}px`;
-                  _canvas['style']['margin'] = '0';
-                  _canvas['style']['padding'] = '0';
-
-                  _canvas.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
-                  _canvas.getContext("2d", { willReadFrequently: true }).drawImage(_img, 0, 0, Math.round(imgW/scale), Math.round(imgH/scale));
+                  scaleCanvas(_canvas, _img, _ZOOM_FACTOR,`${Math.round(imgH/scale)}`, `${Math.round(imgW/scale)}`, scale);
                   
                   previewPNG.appendChild(_canvas);
 
 
-                  var scaleFactor=requiredSize/Math.min(`${Math.round(imgH/scale)}`,`${Math.round(imgW/scale)}`);
+                  _ZOOM_FACTOR=requiredSize/Math.min(`${Math.round(imgH/scale)}`,`${Math.round(imgW/scale)}`);
+                  _img['style']['height']=`${Math.round(imgH/scale)*_ZOOM_FACTOR}px`;
+                  _img['style']['width']=`${Math.round(imgW/scale)*_ZOOM_FACTOR}px`;
 
-                  _canvas.width=imgW*scaleFactor;
-                  _canvas.height=imgH*scaleFactor;
+                  scaleCanvas(_canvas, _img, _ZOOM_FACTOR,`${Math.round(imgH/scale)}`, `${Math.round(imgW/scale)}`, scale);
 
-                  _canvas['style']['height'] = `${Math.round(imgH/scale)*scaleFactor}px`;
-                  _canvas['style']['width'] = `${Math.round(imgW/scale)*scaleFactor}px`;
 
-                  _img['style']['height']=`${Math.round(imgH/scale)*scaleFactor}px`;
-                  _img['style']['width']=`${Math.round(imgW/scale)*scaleFactor}px`;
+                  // function cloneCanvas(oldCanvas) {
+                  //     let newCanvas = document.createElement('canvas');
+                  //     let context = newCanvas.getContext('2d');
 
-                  previewPNG['style']['height']=`${Math.round(imgH/scale)*scaleFactor}px`;
-                  previewPNG['style']['width']=`${Math.round(imgW/scale)*scaleFactor}px`;
+                  //     newCanvas.width = oldCanvas.width;
+                  //     newCanvas.height = oldCanvas.height;
 
-                  _canvas.getContext("2d", { willReadFrequently: true }).scale(scale, scale);
-                  _canvas.getContext("2d", { willReadFrequently: true }).drawImage(_img, 0, 0, `${Math.round(imgW/scale)*scaleFactor}`, `${Math.round(imgH/scale)*scaleFactor}`);
+                  //     newCanvas['style']['width']=oldCanvas['style']['width'];
+                  //     newCanvas['style']['height']=oldCanvas['style']['height'];
+
+                  //     context.drawImage(oldCanvas, 0, 0);
+
+                  //     let imgData=oldCanvas.getContext('2d').getImageData(0, 0, oldCanvas.width, oldCanvas.height);
+                  //     context.putImageData(imgData, 0, 0);
+
+                  //     return newCanvas;
+                  // }
 
                   updateDownloadLink();
+                  
+                  // _ZOOM_FACTOR=1.0;
+                  // _img['style']['height']=`${Math.round(imgH/scale)*_ZOOM_FACTOR}px`;
+                  // _img['style']['width']=`${Math.round(imgW/scale)*_ZOOM_FACTOR}px`;
+                  // canvasCopy = cloneCanvas(_canvas);
+                  // reverseScaleCanvas(canvasCopy, _img, _ZOOM_FACTOR, imgH, imgW, scale);
+                  
 
+                  // document.getElementById('saveBtn').addEventListener('click', async(evt)=> {
+                  //   canvasCopy = cloneCanvas(_canvas);
+                  //   reverseScaleCanvas(canvasCopy, _img, _ZOOM_FACTOR, imgH, imgW, scale);
 
-
+                  //   let dwnLink=document.createElement('a');
+                  //   dwnLink.download=uploadFileName.substr(0,uploadFileName.lastIndexOf('.'))+'.png';
+                  //   dwnLink.href=canvasCopy.toDataURL();
+                  //   dwnLink.click();
+                  // });
+                  
                   
                   const originalImgData0 = _canvas.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, _canvas.width, _canvas.height);
                   allHues['original']=originalImgData0;
@@ -431,7 +463,6 @@
                   selectHue.addEventListener('change', async(evt) => {
                       let selectedValue=evt.target.value;
                       const ctx = _canvas.getContext("2d", { willReadFrequently: true });
-
                       ctx.putImageData(allHues[selectedValue], 0, 0);
                       updateDownloadLink();
                   });

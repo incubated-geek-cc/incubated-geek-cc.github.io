@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/incubated-geek-cc/incubated-geek-cc.github.io/raw/main/img/logo.png" width="96" alt="logo">
+  <img src="https://github.com/incubated-geek-cc/incubated-geek-cc.github.io/raw/main/logo.png" width="96" alt="logo">
 
   # 📄 GitHub Pages
 

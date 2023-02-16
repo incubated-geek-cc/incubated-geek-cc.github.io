@@ -32,6 +32,6 @@
 
 <p><sub>📑 <a href='https://javascript.plainenglish.io/how-to-change-image-hue-with-html5-canvas-in-javascript-514f0e8226a0' target='_blank'>How To Change Image Hue With HTML5 Canvas In JavaScript</a>&nbsp;⮞<a href="https://incubated-geek-cc.github.io/image-rgb-change/" target="_blank">［Live Demo :: Link］</a></sub></p>
 
-<br><p>— <b>Join me on 📝 <b>Medium</b> at <a href='https://medium.com/@geek-cc' target='_blank'>~ ξ(🎀˶❛◡❛) @geek-cc</a></b></p>
-
-<br>🗦💡🗧Please buy me a <a href='https://www.buymeacoffee.com/geekcc' target='_blank'>🌮ᴛᴀᴄᴏ</a>! (would really appreciate it 😋)
+<p>— <b>Join me on 📝 <b>Medium</b> at <a href='https://medium.com/@geek-cc' target='_blank'>~ ξ(🎀˶❛◡❛) @geek-cc</a></b></p>
+---
+⮡ <i>P.S. Please buy me a <a href='https://www.buymeacoffee.com/geekcc' target='_blank'>🌮 Taco</a></i> (would really appreciate it 😋)

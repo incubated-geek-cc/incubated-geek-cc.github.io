@@ -13,7 +13,7 @@
 <div align="left">
 	<table>
 		<tr>
-			<td>📑 <a href='https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2' target='_blank'>Enable Line Numbering to any HTML Textarea</a><sup><sub><a href="https://incubated-geek-cc.github.io/code-editors/" target="_blank">Live Demo :: Link</a></sub></sup></td>
+			<td>📑 <sub><a href='https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2' target='_blank'>Enable Line Numbering to any HTML Textarea</a></sub><sup><a href="https://incubated-geek-cc.github.io/code-editors/" target="_blank">Live Demo :: Link</a></sup></td>
 			<td><sup><sub><a href="https://incubated-geek-cc.github.io/code-editors/" target="_blank">Live Demo :: Link</a></sub></sup></td>
 		</tr>
 		<tr>

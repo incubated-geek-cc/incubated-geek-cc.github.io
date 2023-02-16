@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="https://github.com/incubated-geek-cc/OfflinePDFViewer/raw/main/img/logo.png" width="96" alt="logo">
+  <img src="https://github.com/incubated-geek-cc/incubated-geek-cc.github.io/raw/main/img/logo.png" width="96" alt="logo">
 
   # 📄 GitHub Pages
 
-  ## — where all loose code snippets (e.g. HTML gists) tend to go🗦💡🗧
+  ## — where all loose code snippets (e.g. HTML gists) tend to go...
 
 <div align="left">
 
@@ -33,6 +33,5 @@
 <p><sub>📑 <a href='https://javascript.plainenglish.io/how-to-change-image-hue-with-html5-canvas-in-javascript-514f0e8226a0' target='_blank'>How To Change Image Hue With HTML5 Canvas In JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/image-rgb-change/" target="_blank">⮡［Live Demo :: Link］</a></sub></p>
 
 <p>— <b>Join me on 📝 <b>Medium</b> at <a href='https://medium.com/@geek-cc' target='_blank'>~ ξ(🎀˶❛◡❛) @geek-cc</a></b></p>
----
 
-⮞ <i>P.S. Please buy me a <a href='https://www.buymeacoffee.com/geekcc' target='_blank'>🌮 Taco</a> (would really appreciate it 😋)</i>
+⮞ P.S. Please buy me a 🌮 <a href='https://www.buymeacoffee.com/geekcc' target='_blank'>Taco</a> (would really appreciate it 😋)

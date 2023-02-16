@@ -3,7 +3,7 @@
 
   # 📄 GitHub Pages
 
-  ### where all loose snippets of code (e.g. HTML gists) tend to go 💤
+  ### — where all loose code snippets (e.g. HTML gists) tend to go 💤
 
 <div align="left">
 
@@ -39,6 +39,5 @@
 <br>
 <p>— <b>Join me on 📝 <b>Medium</b> at <a href='https://medium.com/@geek-cc' target='_blank'>~ ξ(🎀˶❛◡❛) @geek-cc</a></b></p>
 
----
-
-#### 🌮 Please buy me a <a href='https://www.buymeacoffee.com/geekcc' target='_blank'>Taco</a>! 😋
+<i>Last but not least...</i>
+<p>— 🌮 Please buy me a <a href='https://www.buymeacoffee.com/geekcc' target='_blank'>Taco</a>! (would really appreciate it 😋 😋 😋 )</p>

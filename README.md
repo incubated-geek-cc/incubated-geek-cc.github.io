@@ -38,5 +38,5 @@
 
 <p>— <b>Join me on 📝 <b>Medium</b> at <a href='https://medium.com/@geek-cc' target='_blank'>~ ξ(🎀˶❛◡❛) @geek-cc</a></b></p>
 <br>
-<p align="left"><a href="https://www.buymeacoffee.com/geekcc" target="blank"><img src="buy_me_a_taco.png" alt="Buy me a taco!" width="160" /></a></p>
+<p align="left"><a href="https://www.buymeacoffee.com/geekcc" target="blank"><img src="https://github.com/incubated-geek-cc/incubated-geek-cc/raw/main/buy_me_a_taco.png" alt="Buy me a taco!" width="160" /></a></p>
 — Would appreciate it 😋

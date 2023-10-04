@@ -260,105 +260,105 @@
 	      	</table>
       	</div>
       	<script>
-			// 	window.addEventListener('beforeunload', (event) => {
-			//  	event.preventDefault()
-			//  	event.returnValue = '';
-			// });
+			 document.addEventListener('DOMContentLoaded', async() => {
+                console.log('DOMContentLoaded');
+                let uploadIndex=0;
 
-			var encodedOutput=document.getElementById('encodedOutput');
+                const encodedOutput=document.getElementById('encodedOutput');
 
-         	var uploadFile=document.getElementById('uploadFile');
-        	var uploadFileBtn=document.getElementById('uploadFileBtn');
+                const uploadFile=document.getElementById('uploadFile');
+                const uploadFileBtn=document.getElementById('uploadFileBtn');
 
-        	uploadFileBtn.addEventListener('click', () => {
-        		uploadFile.click();
-        	});
-
-        	function appendHtmlRow([b64Str,fileName,fileSize,fileType,rowIndex]) {
-        		let htmlStr='<tr><td align="center">';
-        		htmlStr+=[
-        			`<img class="img-thumbnail" src="${b64Str}" /><p>${fileName}</p>`, 
-        			`${fileSize} KB`, 
-                    '---', 
-        			`<strong>For use in &#x3C;img&#x3E; elements: <button class="btn btn-outline-dark copyB64OutputBtn" value="img_b64${rowIndex}">⧉ Copy image</button></strong>
-        			<p><textarea id="img_b64${rowIndex}" wrap="off" readonly>${b64Str}</textarea></p>
-        			<strong>For use as CSS background: <button class="btn btn-outline-dark copyB64OutputBtn" value="css_b64${rowIndex}">⧉ Copy css&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></strong>
-        			<p><textarea id="css_b64${rowIndex}" wrap="off" readonly>url('${b64Str}')</textarea></p>`
-        		].join('</td><td>');
-        		htmlStr+='</td></tr>';
-        		encodedOutput.insertAdjacentHTML('beforeend', htmlStr);
-
-        		return Promise.resolve('success');
-        	}
-        	
-        	function readFileAsB64(file) {
-         		return new Promise((resolve,reject) => {
-                    let fileredr = new FileReader();
-                    fileredr.onload = () => resolve([fileredr.result, file.name, (file.size/1000).toFixed(2), file.type]);
-                    fileredr.onerror = (err) => reject(err);
-                    fileredr.readAsDataURL(file);
+                uploadFileBtn.addEventListener('click', () => {
+                    let clickEvent = new MouseEvent('click', { view: window, bubbles: false, cancelable: false });
+                    uploadFile.dispatchEvent(clickEvent);
                 });
-         	}
 
-         	function copyTextToClipboard(inputEleId) {
-	           let copyTextEle = document.getElementById(inputEleId);
-	           copyTextEle.select();
-	           copyTextEle.setSelectionRange(0, 99999); /* For mobile devices */
-	           navigator.clipboard.writeText(copyTextEle.value);
-	        }
+                function appendHtmlRow([b64Str,fileName,fileSize,fileType,rowIndex]) {
+                    let htmlStr='<tr><td align="center">';
+                    htmlStr+=[
+                        `<img class="img-thumbnail" src="${b64Str}" /><p>${fileName}</p>`, 
+                        `${fileSize} KB`, 
+                        '---', 
+                        `<strong>For use in &#x3C;img&#x3E; elements: <button class="btn btn-outline-dark copyB64OutputBtn" value="img_b64${rowIndex}">⧉ Copy image</button></strong>
+                        <p><textarea id="img_b64${rowIndex}" wrap="off" readonly>${b64Str}</textarea></p>
+                        <strong>For use as CSS background: <button class="btn btn-outline-dark copyB64OutputBtn" value="css_b64${rowIndex}">⧉ Copy css&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></strong>
+                        <p><textarea id="css_b64${rowIndex}" wrap="off" readonly>url('${b64Str}')</textarea></p>`
+                    ].join('</td><td>');
+                    htmlStr+='</td></tr>';
+                    encodedOutput.insertAdjacentHTML('beforeend', htmlStr);
 
-        	uploadFile.addEventListener('change', (ev) => {	
-        		if(encodedOutput.getElementsByTagName('td').length === 0) {
-        			encodedOutput.innerHTML='';
-        		}
-			    if (!window.FileReader) {
-			        alert('Your browser does not support HTML5 "FileReader" function required to open a file.');
-			    } else {
-			    	let filesArr=ev.target.files;
-			    	filesArr=(filesArr.length>20) ? filesArr.slice(0,20) : filesArr;
+                    return Promise.resolve('success');
+                }
+                
+                function readFileAsB64(file) {
+                    return new Promise((resolve,reject) => {
+                        let fileredr = new FileReader();
+                        fileredr.onload = () => resolve([fileredr.result, file.name, (file.size/1000).toFixed(2), file.type]);
+                        fileredr.onerror = (err) => reject(err);
+                        fileredr.readAsDataURL(file);
+                    });
+                }
 
-			    	let fileReaders=[];
-		        	for(let f in filesArr) {
-		        		if(!isNaN(f)) {
-		        			let file=filesArr[f];
-		        			if( parseInt(file.size/1024) <= 1000) {
-				        		fileReaders.push(readFileAsB64(filesArr[f]));
-				        	}
-				        }
-			        }
-			        Promise.all(fileReaders).then((outputArrs) => {
-	                    for(let o in outputArrs) {
-	                    	if(!isNaN(o)) {
-	                    		let fileArr=outputArrs[o];
-	                    		fileArr.push(o);
-                    			appendHtmlRow(fileArr).then((status) => {
-	            					let trArr=encodedOutput.getElementsByTagName('tr');
-									for(let trIndex in trArr) {
-									    if(!isNaN(trIndex)) {
-									        let trEle=trArr[trIndex];
-									        let tdImgEle=trEle.getElementsByTagName('td')[0];
-									        let imgEle=tdImgEle.querySelector('img');
-									        let dimDisplay = `${imgEle.naturalHeight} × ${imgEle.naturalWidth} px`;
-									        let tdDimDisplay=trEle.getElementsByTagName('td')[2];
-									        tdDimDisplay.innerText=dimDisplay;
-									    }
-									}
+                function copyTextToClipboard(inputEleId) {
+                   let copyTextEle = document.getElementById(inputEleId);
+                   copyTextEle.select();
+                   copyTextEle.setSelectionRange(0, 99999); /* For mobile devices */
+                   navigator.clipboard.writeText(copyTextEle.value);
+                }
 
-									let copyB64OutputBtnArr=encodedOutput.getElementsByClassName('copyB64OutputBtn');
-									for(let btnIndex in copyB64OutputBtnArr) {
-										if(!isNaN(btnIndex)) {
-											copyB64OutputBtnArr[btnIndex].addEventListener('click', (evt) => {
-								               let inputEleId=evt.srcElement.value;
-								               copyTextToClipboard(inputEleId);
-								            });
-										}
-							         }
-                    			});
-	                    	}
-	                    }
-	                });
-			    }
-			});
+                uploadFile.addEventListener('click', (ev) => {
+                    ev.currentTarget.value='';
+                });
+
+                uploadFile.addEventListener('change', async(ev) => {    
+                    if(encodedOutput.getElementsByTagName('td').length === 0) {
+                        encodedOutput.innerHTML='';
+                    }
+                    if (!window.FileReader) {
+                        alert('Your browser does not support HTML5 "FileReader" function required to open a file.');
+                    } else {
+                        let filesArr=ev.target.files;
+                        filesArr=(filesArr.length>20) ? filesArr.slice(0,20) : filesArr;
+
+                        let fileReaders=[];
+                        for(let f in filesArr) {
+                            if(!isNaN(f)) {
+                                let file=filesArr[f];
+                                if( parseInt(file.size/1024) <= 1000) {
+                                    fileReaders.push(readFileAsB64(filesArr[f]));
+                                }
+                            }
+                        }
+                        let outputArrs = await Promise.all(fileReaders); 
+                        for(let fileArr of outputArrs) {
+                            fileArr.push(uploadIndex++);
+                            await appendHtmlRow(fileArr);
+
+                            let trArr=encodedOutput.getElementsByTagName('tr');
+                            for(let trIndex in trArr) {
+                                if(!isNaN(trIndex)) {
+                                    let trEle=trArr[trIndex];
+                                    let tdImgEle=trEle.getElementsByTagName('td')[0];
+                                    let imgEle=tdImgEle.querySelector('img');
+                                    let dimDisplay = `${imgEle.naturalHeight} × ${imgEle.naturalWidth} px`;
+                                    let tdDimDisplay=trEle.getElementsByTagName('td')[2];
+                                    tdDimDisplay.innerText=dimDisplay;
+                                }
+                            }
+
+                            let copyB64OutputBtnArr=encodedOutput.getElementsByClassName('copyB64OutputBtn');
+                            for(let copyB64OutputBtn of copyB64OutputBtnArr) {
+                                copyB64OutputBtn.addEventListener('click', (evt) => {
+                                   let inputEleId=evt.srcElement.value;
+                                   copyTextToClipboard(inputEleId);
+                                });
+                            }
+                        }
+                    }
+                });
+
+            });
 		</script>
 	</body>
 </html>

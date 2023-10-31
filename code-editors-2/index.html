@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang='en' class='notranslate' translate='no'>
+    <head>
+        <meta name='google' content='notranslate' />
+        <meta charset='UTF-8'>
+        <meta name='description' content='Lightweight Code Editor' />
+        <meta name="author" content="Charmaine Chui" />
+        <meta name='keywords' content='Textarea,HTML,CSS,JavaScript'>
+        <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
+        <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />
+        <meta http-equiv='Content-Language' content='en' />
+        <title>Line Numbering to TextArea Demo ⸬ Part II</title>
+        <style>
+            html,
+            body {
+              width:100vw;
+              height:100%;
+              padding:0;
+              margin:0;
+              overflow:hidden;
+            }
+            body {
+              width:100vw;
+              height:100vh;
+              padding: 1.5rem 5.5rem;
+              font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
+              font-size: 1.0rem;
+            }
+            #codeEditor, #lineCounter {
+                margin: 0;
+                padding: 10px 0;
+                border-radius: 0;
+                resize: none;
+                font-size: 13.333333333px;
+                font-family: "Courier New", Courier, monospace;
+                tab-size: 2;
+                -webkit-hyphens: none;
+                -moz-hyphens: none;
+                -ms-hyphens: none;
+                hyphens: none;
+                line-height: 1.45;
+                outline: none;
+                border-width: 0;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            #codeEditor {
+                padding-left: calc(50px + 5px);
+                width: calc(100% - 8px);
+                background-color: #fefefd;
+                border: 1px solid rgba(28,205,188);
+                color: rgba(8,152,138);
+                white-space: break-spaces;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                overflow-x: visible;
+                overflow-y: auto;
+            }
+            #lineCounter {
+                display: flex;
+                overflow-y: hidden;
+                text-align: right;
+                box-shadow: none;
+                color: #707070;
+                background-color: #d8d8d8;
+                position: absolute;
+                width: 50px;
+                background-color: rgba(28,205,188,.25);
+                color: rgba(8,152,138);
+            }
+            #lineCounter:focus-visible,
+            #codeEditor:focus-visible {
+                outline:none;
+            }   
+
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-track {
+              border-radius: 12px;
+              background-color: #cccccc;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+              background: rgba(8,152,138);
+              border-radius: 12px;
+            }
+
+            .mb-0 {
+                margin-bottom: 0 !important
+            }
+            .mt-0 {
+                margin-top: 0 !important
+            }
+            .ml-1 {
+                margin-left: 0.25rem !important
+            }
+            .mr-1{
+                margin-right: 0.25rem !important
+            }
+            .w-50 {
+                width: 50vw !important
+            }
+            .unselectable {
+              -moz-user-select: none;
+              -webkit-user-select: none;
+              -ms-user-select: none;
+            }
+            .border-0 {
+                border:none;
+            }
+        </style>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+
+        <h2>📝 Code Editor (Part II) ⸬ View Post ✍️ at <a href='#' target='_blank'>___</a></h2>
+        <p class="mb-0 mt-0 ml-1 mr-1 w-50"><textarea id='lineCounter' wrap='off' readonly rows='8' class='border-0 unselectable'>1.</textarea><textarea id='codeEditor' class='custom-scrollbar' wrap='off' rows='8'></textarea></p>
+
+
+        <p class='mb-0'>
+            <b>Links to Part I:</b>
+            <ul>
+                <li><b class='mr-1'>Post ✍️</b><a href='https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2' target='_blank'>Enable Line Numbering to any HTML Textarea</a></li>
+                <li><b class='mr-1'>Demo 👁️</b><a href='https://incubated-geek-cc.github.io/code-editors/' target='_blank'>Line Numbering to TextArea Demo</a></li>
+            </ul>
+        </p>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async() => {
+                console.log('DOMContentLoaded');
+                const sampleQueryStmt = 'SELECT patient_id,diagnosis_code,icd9_description FROM' +
+                    '\n  (SELECT patient_id,diagnosis_code FROM patient_diagnosis) A' +
+                    '\nLEFT JOIN ' +
+                    '\n  (SELECT icd9_code, icd9_description FROM icd9_mapping) B' +
+                    '\nON A.diagnosis_code = B.icd9_code;';
+
+                // IE8
+                // IE9+ and other modern browsers
+                function triggerEvent(el, type) {
+                    let e = (('createEvent' in document) ? document.createEvent('HTMLEvents') : document.createEventObject());
+                    if ('createEvent' in document) {
+                        e.initEvent(type, false, true);
+                        el.dispatchEvent(e);
+                    } else {
+                        e.eventType = type;
+                        el.fireEvent('on' + e.eventType, e);
+                    }
+                }
+
+                function line_counter(codeEditor, lineCounter) {
+                    const charThreshold = 8; // width of each char to determine how many char exceeds editor width
+                    const codeEditorWidth = codeEditor.clientWidth;
+                    const lineCounterWidth = lineCounter.clientWidth;
+
+                    const codeEditorLeftPadding = 5; // padding-left = 5 of #codeEditor
+                    const codeEditorEditableWidth = codeEditorWidth - lineCounterWidth - codeEditorLeftPadding;
+
+                    let lines = codeEditor.value.split('\n');
+                    let lineCount = lines.length;
+                    let outarr = new Array();
+                    for (let x = 0; x < lineCount; x++) {
+                        if ((lines[x].length * charThreshold) + codeEditorLeftPadding > codeEditorEditableWidth) {
+                            outarr.push(`${parseInt(x + 1)}.`);
+                            let nbWrap = Math.floor(((lines[x].length * charThreshold) + codeEditorLeftPadding) / codeEditorEditableWidth);
+                            for (let y = 0; y < nbWrap; y++) {
+                                outarr.push(' ');
+                            }
+                        } else {
+                            outarr.push(`${parseInt(x + 1)}.`);
+                        }
+                    }
+                    lineCounter.value = outarr.join('\n');
+                }
+
+                function bindEventsToCodeEditor(codeEditor, lineCounter) {
+                    codeEditor.addEventListener('scroll', () => {
+                        lineCounter.scrollTop = codeEditor.scrollTop;
+                        lineCounter.scrollLeft = codeEditor.scrollLeft;
+                    });
+                    codeEditor.addEventListener('input', () => {
+                        line_counter(codeEditor, lineCounter);
+                    });
+                    codeEditor.addEventListener('keydown', (e) => {
+                        let { key } = e;
+                        let {
+                            value,
+                            selectionStart,
+                            selectionEnd
+                        } = codeEditor;
+                        if (key === 'Tab') {
+                            e.preventDefault();
+                            codeEditor.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
+                            codeEditor.setSelectionRange(selectionStart + 2, selectionStart + 1);
+                        }
+                    });
+                }
+
+                codeEditor.value=sampleQueryStmt;
+                window.addEventListener('resize', (evt) => {
+                    const codeEditor = document.querySelector('#codeEditor');
+                    const lineCounter = document.querySelector('#lineCounter');
+                    line_counter(codeEditor, lineCounter);
+                    bindEventsToCodeEditor(codeEditor, lineCounter);
+                });
+                triggerEvent(window, 'resize');
+
+                window.addEventListener('scroll', (evt) => {    
+                    let coorY0 = codeEditor.getBoundingClientRect()['y'];
+                    let coorY1 = lineCounter.getBoundingClientRect()['y'];
+                    
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang='en' class='notranslate' translate='no'>
+	<head>
+	    <meta name='google' content='notranslate' />
+	    <meta charset='UTF-8'>
+	    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
+	    <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />
+	    <meta http-equiv='Content-Language' content='en' />
+	    <title>Encoding/Decoding Strings Using Client-Side JavaScript</title>
+  		<style>
+  			html, body {
+  				padding:0;
+  				margin:0;
+  			}
+  			body {
+			    margin: 0;
+			    padding: 0;
+			    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+			    font-size: 1rem;
+			    font-weight: 400;
+			    line-height: 1.5;
+			    color: #212529;
+			    text-align: left;
+			    background-color: #fff;
+			    width: calc(100vw - 17px);
+			    height: 100%;
+			    overflow-x: hidden;
+			    overflow-y: auto;
+			}
+			textarea {
+				resize:none;
+				width:-webkit-fill-available;
+				height:25vh;
+			}
+			table {
+			    border-collapse: collapse;
+			}
+			table th, table td {
+				text-align:left;
+			}
+			table tr td {
+				width:calc(30vw - 2px);
+				/*vertical-align: -webkit-baseline-middle;*/
+			}
+			.table {
+			    width: 90vw;
+			    margin: 0.25rem auto;
+			    color: #212529;
+			}
+			.table td, .table th {
+			    padding: 0.15rem;
+			    vertical-align: -webkit-baseline-middle;
+			    border-top: 1px solid #dee2e6;
+			}
+			.table-bordered td, .table-bordered th {
+			    border: 1px solid #dee2e6;
+			}
+			table {
+				font-size: smaller;
+			}
+			code {
+			    color: #e41a76;
+			    word-break: break-all;
+			    background: #f7eff2;
+			    padding: 1px 0.25px;
+			    border-radius: 2px;
+			    font-size: small;
+			}
+			pre {
+				/*font-size: 87.5%;*/
+    			/*text-wrap: wrap;*/
+			    /* white-space: pre-wrap; */
+			    width: inherit;
+			    font-size: smaller;
+			    overflow-x: auto;
+			}
+			button#inputTextBtn {
+			    font-family: Segoe UI Symbol;
+			}
+
+			.error-msg {
+			    color: #721c24;
+			    background-color: #f8d7da;
+			    border-color: #f5c6cb;
+			}
+			.error-msg {
+			    position: relative;
+			    padding: 0.75rem 1.25rem;
+			    margin-bottom: 1rem;
+			    border: 1px solid transparent;
+			    border-radius: 0.25rem;
+			}
+  		</style>
+  	</head>
+  	<body>
+		<table class='table table-bordered'>
+			<tr>
+				<th colspan='2'>
+					Format: <code>String</code><br>
+					<mark>Specifiy text input here.</mark><br>
+					<textarea id='inputText'>Hey. this is a string!</textarea><br>
+					<button type='button' id='inputTextBtn'><strong>⮦⮥</strong> 𝗖𝗢𝗡𝗩𝗘𝗥𝗧</button>
+				</th>
+				<th>
+					<select id='inputEncoding'>
+						<option value='Hey. this is a string!'>ASCII Only</option>
+						<option value='✓ à la mode a Ā 文 🦄'>UTF-8 (Mix of ASCII & Unicode)</option>
+						<option value='ヾξ⸨🎀˶❛ヮ❛⸩ﾉ ᵀᴴᴱ ᴿᴵᴮᴮᴼᴺ ᴳᴵᴿᴸ'>Unicode Only</option>
+					</select>
+				</th>
+			</tr>
+			<tr>
+				<td colspan='3'>
+					<h4>Format: <code>Data URL (Base64-Encoded)</code></h4>
+
+					<strong>Utility Functions:</strong>
+<pre style='width:100%;'><code>const convertBitArrtoB64 = (bitArr) => ( btoa( bitArr.reduce((data, byte) => data + String.fromCharCode(byte), '') ) );
+const convertB64ToBitArr = (b64Str) => ( Uint8Array.from(atob( (b64Str.includes(';base64,') ? (b64Str.split(','))[1] : b64Str) ), (v) => v.charCodeAt(0)) );
+
+const bitArr = (utf8Str) => (new TextEncoder().encode(utf8Str));
+const utf8Str = (bitArr) => (new TextDecoder().decode(bitArr.buffer));
+
+const utf8_to_b64 = ( str ) => ( btoa(unescape(encodeURIComponent( str ))) );
+const b64_to_utf8 = ( str ) => ( decodeURIComponent(escape(atob( str ))) );</code></pre>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<code>btoa(<span class='inputText'></span>)</code>
+				</td>
+				<td>
+					<code>convertBitArrtoB64(bitArr(<span class='inputText'></span>))</code>
+				</td>
+				<td>
+					<code>utf8_to_b64(<span class='inputText'></span>)</code>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id='encodedb64_0'></textarea>
+				</td>
+				<td>
+					<textarea id='encodedb64_1'></textarea>
+				</td>
+				<td>
+					<textarea id='encodedb64_2'></textarea>
+				</td>
+			</tr>
+			<tr>
+				<th colspan='3'>
+					Format: <code>String (Base64-Decoded)</code>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<code>atob(<span id='display_0'></span>)</code>
+				</td>
+				<td>
+					<code>utf8Str(convertB64ToBitArr(<span id='display_1'></span>))</code>
+				</td>
+				<td>
+					<code>b64_to_utf8(<span id='display_2'></span>)</code>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id='decodedb64_0'></textarea>
+				</td>
+				<td>
+					<textarea id='decodedb64_1'></textarea>
+				</td>
+				<td>
+					<textarea id='decodedb64_2'></textarea>
+				</td>
+			</tr>
+
+
+			<tr>
+				<th colspan='3'>
+					Format: <code>Buffer</code>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<code>convertB64ToBitArr(btoa(<span class='inputText'></span>))</code>
+				</td>
+				<td>
+					<code>bitArr(<span class='inputText'></span>)</code>
+				</td>
+				<td>
+					<code>convertB64ToBitArr(utf8_to_b64(<span class='inputText'></span>))</code>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id='buffer_0'></textarea>
+				</td>
+				<td>
+					<textarea id='buffer_1'></textarea>
+				</td>
+				<td>
+					<textarea id='buffer_2'></textarea>
+				</td>
+			</tr>
+		</table>
+
+		
+
+		
+		<script type='text/javascript'>
+			 document.addEventListener('DOMContentLoaded', async() => {
+		        console.log('DOMContentLoaded');
+		        
+				const convertBitArrtoB64 = (bitArr) => ( btoa( bitArr.reduce((data, byte) => data + String.fromCharCode(byte), '') ) );
+				const convertB64ToBitArr = (b64Str) => ( Uint8Array.from(atob( (b64Str.includes(';base64,') ? (b64Str.split(','))[1] : b64Str) ), (v) => v.charCodeAt(0)) );
+
+				const bitArr = (utf8Str) => (new TextEncoder().encode(utf8Str));
+				const utf8Str = (bitArr) => (new TextDecoder().decode(bitArr.buffer));
+
+				const utf8_to_b64 = ( str ) => ( btoa(unescape(encodeURIComponent( str ))) );
+				const b64_to_utf8 = ( str ) => ( decodeURIComponent(escape(atob( str ))) );
+
+		        const inputTextArea = document.querySelector('#inputText');
+		        const inputTextBtn = document.querySelector('#inputTextBtn');
+
+		        const encodedb64_0 = document.querySelector('#encodedb64_0');
+		        const encodedb64_1 = document.querySelector('#encodedb64_1');
+		        const encodedb64_2 = document.querySelector('#encodedb64_2');
+
+		        const display_0 = document.querySelector('#display_0');
+		        const display_1 = document.querySelector('#display_1');
+		        const display_2 = document.querySelector('#display_2');
+
+		        const decodedb64_0 = document.querySelector('#decodedb64_0');
+		        const decodedb64_1 = document.querySelector('#decodedb64_1');
+		        const decodedb64_2 = document.querySelector('#decodedb64_2');
+
+		        const buffer_0 = document.querySelector('#buffer_0');
+		        const buffer_1 = document.querySelector('#buffer_1');
+		        const buffer_2 = document.querySelector('#buffer_2');
+
+		        const errorMsgs = [];
+		        function displayError(parent,msg) {
+			        const errorMsg=document.createElement('div');
+			        errorMsg.classList.add('error-msg');
+			        errorMsg.innerText=msg;
+			        errorMsgs.push(errorMsg);
+			        parent.parentNode.appendChild(errorMsg);
+		        }
+
+		        function clearAll() {
+		        	display_0.innerText='';
+		        	display_1.innerText='';
+		        	display_2.innerText='';
+
+		        	const inputTextEles = document.querySelectorAll('.inputText');
+			        for(let inputTextEle of inputTextEles) {
+			        	inputTextEle.innerText='';
+			        }
+
+		        	encodedb64_0.value='';
+		        	encodedb64_1.value='';
+		        	encodedb64_2.value='';
+
+		        	decodedb64_0.value='';
+		        	decodedb64_1.value='';
+		        	decodedb64_2.value='';
+
+		        	buffer_0.value='';
+		        	buffer_1.value='';
+		        	buffer_2.value='';
+
+		        	for(let errorMsg of errorMsgs) {
+		        		errorMsg.remove();
+		        	}
+		        }
+		        function convertInputText(inputText) {
+		        	clearAll();
+
+			        const inputTextEles = document.querySelectorAll('.inputText');
+			        for(let inputTextEle of inputTextEles) {
+			        	inputTextEle.innerText=`'${inputText}'`;
+			        }
+
+			        try {
+				        encodedb64_0.value=btoa(inputText);
+				        let val_0=encodedb64_0.value;
+				        display_0.innerText=`'${val_0}'`;
+
+				        decodedb64_0.value=atob(val_0);
+				        buffer_0.value=convertB64ToBitArr(btoa(inputText));
+				        val_0=buffer_0.value;
+				    } catch(err) {
+				    	displayError(encodedb64_0,err);
+				    }
+
+				    try {
+				        encodedb64_1.value=convertBitArrtoB64(bitArr(inputText));
+				        let val_1=encodedb64_1.value;
+				        display_1.innerText=`'${val_1}'`;
+
+				        decodedb64_1.value=utf8Str(convertB64ToBitArr(val_1));
+				        buffer_1.value=bitArr(inputText);
+				        val_1=buffer_1.value;
+			        } catch(err) {
+				    	displayError(encodedb64_1,err);
+				    }
+
+				    try {
+				        encodedb64_2.value=utf8_to_b64(inputText);
+				        let val_2=encodedb64_2.value;
+				        display_2.innerText=`'${val_2}'`;
+				        
+				        decodedb64_2.value=b64_to_utf8(val_2);
+				        buffer_2.value=convertB64ToBitArr(utf8_to_b64(inputText));
+				        val_2=buffer_2.value;
+			        } catch(err) {
+				    	displayError(encodedb64_2,err);
+				    }
+		        }
+
+		        inputTextBtn.addEventListener('click', ()=> {
+		        	convertInputText(inputTextArea.value);
+		        });
+
+		        document.querySelector('#inputEncoding').addEventListener('change', (evt)=> {
+		        	let optionSelected=evt.target.selectedOptions[0];
+		        	let optionVal=optionSelected.value;
+		        	let optionText=optionSelected.text;
+		        	inputTextArea.value=optionVal;
+		        });
+
+		    });
+		</script>
+	</body>
+</html>

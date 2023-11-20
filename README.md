@@ -15,6 +15,7 @@
 
 <p><sub>📑 <a href='https://medium.com/geekculture/how-to-format-text-in-linkedin-posts-808e322f9e59' target='_blank'>How to Format Text in LinkedIn Posts</a>&nbsp;<a href="https://incubated-geek-cc.github.io/text-formatters/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
 
+<p><sub>📑 <a href='#' target='_blank'>How To Convert String To Buffer And Data URL Formats Using Client-Side JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/convert-to-buffer/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
 
 <h4>🔄 Pattern-based Encoded Data</h4>
 <p><sub>📑 <a href='https://javascript.plainenglish.io/an-offline-qr-code-generator-reader-built-in-100-vanilla-javascript-b7e8aec812e8' target='_blank'>An Offline QR Code Generator/Reader Built With 100% Vanilla JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/qr-utility/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
@@ -30,6 +31,8 @@
 
 <h4>🆓 Other Miscellaneous Utilities</h4>
 <p><sub>📑 <a href='https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2' target='_blank'>Enable Line Numbering to any HTML Textarea</a>&nbsp;<a href="https://incubated-geek-cc.github.io/code-editors/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
+
+<p><sub>📑 <a href='https://javascript.plainenglish.io/enable-line-numbering-to-any-html-textarea-ac992e70de98' target='_blank'>Enable Line Numbering to any HTML Textarea (Part II)</a>&nbsp;<a href="https://incubated-geek-cc.github.io/code-editors-2/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
 
 <p><sub>📑 <a href='https://medium.com/weekly-webtips/build-a-hexagonal-color-picker-with-css-vanilla-javascript-36e62d10527' target='_blank'>Build A Hexagonal Color Picker with CSS & Vanilla JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/hexagonal-picker/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
 

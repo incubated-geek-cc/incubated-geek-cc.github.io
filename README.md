@@ -15,7 +15,7 @@
 
 <p><sub>📑 <a href='https://medium.com/geekculture/how-to-format-text-in-linkedin-posts-808e322f9e59' target='_blank'>How to Format Text in LinkedIn Posts</a>&nbsp;<a href="https://incubated-geek-cc.github.io/text-formatters/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
 
-<p><sub>📑 <a href='#' target='_blank'>How To Convert String To Buffer And Data URL Formats Using Client-Side JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/convert-to-buffer/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
+<p><sub>📑 <a href='https://geek-cc.medium.com/how-to-convert-string-to-buffer-and-data-url-formats-using-client-side-javascript-9514a8c446d2' target='_blank'>How To Convert String To Buffer And Data URL Formats Using Client-Side JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/convert-to-buffer/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>
 
 <h4>🔄 Pattern-based Encoded Data</h4>
 <p><sub>📑 <a href='https://javascript.plainenglish.io/an-offline-qr-code-generator-reader-built-in-100-vanilla-javascript-b7e8aec812e8' target='_blank'>An Offline QR Code Generator/Reader Built With 100% Vanilla JavaScript</a>&nbsp;<a href="https://incubated-geek-cc.github.io/qr-utility/" target="_blank">🔗［Live Demo :: Link］</a></sub></p>

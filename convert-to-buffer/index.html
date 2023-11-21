@@ -6,6 +6,13 @@
 	    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' />
 	    <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1' />
 	    <meta http-equiv='Content-Language' content='en' />
+     	<meta name='msapplication-TileColor' content='#ffffff' />
+      	<meta name='theme-color' content='#ffffff' />
+      	<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+      	<meta name='apple-mobile-web-app-capable' content='yes' />
+      	<meta name='mobile-web-app-capable' content='yes' />
+      	<meta name='HandheldFriendly' content='True' />
+      	<meta name='MobileOptimized' content='320' />  
 	    <title>Encoding/Decoding Strings Using Client-Side JavaScript</title>
   		<style>
   			html, body {
@@ -43,7 +50,7 @@
 				/*vertical-align: -webkit-baseline-middle;*/
 			}
 			.table {
-			    width: 90vw;
+			    width: calc(100% - 0.5rem - 20px);
 			    margin: 0.25rem auto;
 			    color: #212529;
 			}
@@ -69,7 +76,7 @@
 			pre {
 				/*font-size: 87.5%;*/
     			/*text-wrap: wrap;*/
-			    /* white-space: pre-wrap; */
+			    white-space: pre-wrap; 
 			    width: inherit;
 			    font-size: smaller;
 			    overflow-x: auto;
@@ -114,7 +121,7 @@
 					<h4>Format: <code>Data URL (Base64-Encoded)</code></h4>
 
 					<strong>Utility Functions:</strong>
-<pre style='width:100%;'><code>const convertBitArrtoB64 = (bitArr) => ( btoa( bitArr.reduce((data, byte) => data + String.fromCharCode(byte), '') ) );
+<pre style='width:calc(100% - 1.75rem - 20px)'><code>const convertBitArrtoB64 = (bitArr) => ( btoa( bitArr.reduce((data, byte) => data + String.fromCharCode(byte), '') ) );
 const convertB64ToBitArr = (b64Str) => ( Uint8Array.from(atob( (b64Str.includes(';base64,') ? (b64Str.split(','))[1] : b64Str) ), (v) => v.charCodeAt(0)) );
 
 const bitArr = (utf8Str) => (new TextEncoder().encode(utf8Str));

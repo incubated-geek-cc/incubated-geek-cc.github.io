@@ -246,7 +246,6 @@
             user-select:none;
             border-color:transparent;
         }
-
         #copyrightBanner {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
             padding: 0.45rem 0.35rem;
@@ -258,7 +257,7 @@
     <p id="copyrightBanner">© Copyright <span id="yearDisplay"></span> | Created by <a href="https://medium.com/@geek-cc" target="_blank">the Girl with a ribbon</a> ξ(🎀˶❛◡❛)</p>
     🔗 <a href="https://online-barcode-reader.inliteresearch.com/" target="_blank">Online Barcode Decoder</a>
 
-    <p>ɪɴᴘᴜᴛ ᴛᴇxᴛ ʜᴇʀᴇ: <input type="text" id="barcodeText" name="barcodeText" maxlength="43" /><button id="renderBarcodeBtn" class="btn btn-outline-dark">💡 ɢᴇɴᴇʀᴀᴛᴇ ᴃᴀʀᴄᴏᴅᴇ ᶜᵒᵈᵉ ³⁹ »</button></p>
+    <p>Input Text Here: <input type="text" id="barcodeText" name="barcodeText" maxlength="43" /><button id="renderBarcodeBtn" class="btn btn-outline-dark">💡 ɢᴇɴᴇʀᴀᴛᴇ ᴃᴀʀᴄᴏᴅᴇ ᶜᵒᵈᵉ ³⁹ »</button></p>
     <p><u>Regular Display</u><div id="barcodeDisplay"></div></p>
     <p><u>Unicode Symbols</u> <button id="copyBarcodeSymbolDisplay" class='btn btn-outline-dark' type='button'>⧉ ᴄᴏᴘʏ</button></p>
     <p><textarea id="barcodeSymbolDisplay" readonly></textarea></p>
@@ -287,7 +286,7 @@
         };
 
         const copyBtnHtmlStr="<button class='copy-btn btn btn-outline-dark' type='button'>⧉ ᴄᴏᴘʏ</button>";
-        var tableRef=document.getElementById("tableRef");
+        const tableRef=document.getElementById("tableRef");
 
         var numericalValObj=barCharMapper["Numerical"];
         var numericalKeyList=Object.keys(numericalValObj);
@@ -332,7 +331,7 @@
 
         tableRef.innerHTML = tableRefRowsHtmlStr;
 
-        var copyBtnList=document.getElementsByClassName("copy-btn");
+        const copyBtnList=document.getElementsByClassName("copy-btn");
         for(var c in copyBtnList) {
           if(!isNaN(c)) {
             copyBtnList[c].addEventListener("click", (evt) => {
@@ -342,12 +341,12 @@
           }
         }
 
-        var renderBarcodeBtn=document.getElementById("renderBarcodeBtn");
-        var barcodeText=document.getElementById("barcodeText");
-        var barcodeDisplay=document.getElementById("barcodeDisplay");
-        var barcodeSymbolDisplay=document.getElementById("barcodeSymbolDisplay");
+        const renderBarcodeBtn=document.getElementById("renderBarcodeBtn");
+        const barcodeText=document.getElementById("barcodeText");
+        const barcodeDisplay=document.getElementById("barcodeDisplay");
+        const barcodeSymbolDisplay=document.getElementById("barcodeSymbolDisplay");
 
-        var copyBarcodeSymbolDisplay=document.getElementById("copyBarcodeSymbolDisplay");
+        const copyBarcodeSymbolDisplay=document.getElementById("copyBarcodeSymbolDisplay");
         copyBarcodeSymbolDisplay.addEventListener("click", (evt) => {
            barcodeSymbolDisplay.select();
            barcodeSymbolDisplay.setSelectionRange(0, 99999); /* For mobile devices */
@@ -361,7 +360,7 @@
         };
 
         var initTxt="LOREM IPSUM";
-        var charBarcodeMapper={
+        const charBarcodeMapper={
             "0":"B2 W2 B2 W5 B5 W2 B5 W2 B2 W2","1":"B5 W2 B2 W5 B2 W2 B2 W2 B5 W2","2":"B2 W2 B5 W5 B2 W2 B2 W2 B5 W2",
             "3":"B5 W2 B5 W5 B2 W2 B2 W2 B2 W2","4":"B2 W2 B2 W5 B5 W2 B2 W2 B5 W2","5":"B5 W2 B2 W5 B5 W2 B2 W2 B2 W2",
             "6":"B2 W2 B5 W5 B5 W2 B2 W2 B2 W2","7":"B2 W2 B2 W5 B2 W2 B5 W2 B5 W2","8":"B5 W2 B2 W5 B2 W2 B5 W2 B2 W2",
@@ -401,7 +400,7 @@
                     let barcodeStrArr=barcodeStr.split(" ");
                     let fullBarcodeStr="<span class='"+barcodeStrArr.join("'></span><span class='")+"'></span>";
                     symbolRep+=fullBarcodeStr;
-                  } catch(err) {}
+                  } catch(err) { }
                 }
             }
             barcodeDisplay.innerHTML=symbolRep;

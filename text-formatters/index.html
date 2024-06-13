@@ -3,7 +3,11 @@
    <body>
       <noscript>Please enable JavaScript on your browser.</noscript>
       <style>
-      #fontLayout {background-color: #282A35;padding: 10px;color: #ffffff;border-radius: 0px;}#fontLayout .fontwindow {background-color: #ffffff;padding: 10px;color: #000000;}#fontLayout .fontprecontainer {background-color: #E7E9EB;padding: 10px;font-size: 120%;font-family: Consolas,"Courier New", Courier, monospace;}#fontLayout .fontprecontainer table, tr {width: 100%;}#fontLayout .fontprecontainer input {font-family:"Segoe UI Symbol";padding: 3px;border: 1px solid #282A35;height: 1.5em;width: 100%;border-radius:0;}.button {background-color: #282A35;border: none;color: white;padding: 3px;font-size: 1.25em;height: 1.5em;text-align: center;text-decoration: none;display: inline-block;}.btn-default {color: #333;background-color: #fff;border-color: #ccc;}.btn {display: inline-block;margin-bottom: 0;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation;touch-action: manipulation;cursor: pointer;background-image: none;border: 1px solid transparent;padding: 6px 12px;font-size: 14px;line-height: 1.42857143;border-radius: 0;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}.btn-default:hover {color: #333;background-color: #e6e6e6;border-color: #adadad;}
+      #fontLayout {background-color: #282A35;padding: 10px;color: #ffffff;border-radius: 0px;}#fontLayout .fontwindow {background-color: #ffffff;padding: 10px;color: #000000;}#fontLayout .fontprecontainer {background-color: #E7E9EB;padding: 10px;font-size: 120%;font-family: Consolas,"Courier New", Courier, monospace;}#fontLayout .fontprecontainer table, tr {width: 100%;}
+#fontLayout .fontprecontainer input {font-family:"Segoe UI Symbol";padding: 3px;border: 1px solid #282A35;height: 1.5em;width: 100%;border-radius:0;}
+#fontLayout .fontprecontainer input.footnote {font-family:"Cambria"}
+
+.button {background-color: #282A35;border: none;color: white;padding: 3px;font-size: 1.25em;height: 1.5em;text-align: center;text-decoration: none;display: inline-block;}.btn-default {color: #333;background-color: #fff;border-color: #ccc;}.btn {display: inline-block;margin-bottom: 0;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation;touch-action: manipulation;cursor: pointer;background-image: none;border: 1px solid transparent;padding: 6px 12px;font-size: 14px;line-height: 1.42857143;border-radius: 0;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}.btn-default:hover {color: #333;background-color: #e6e6e6;border-color: #adadad;}
       </style>
       <div id="fontLayout" autocomplete="off">
          <h2>Alphanumerical Conversion Tool</h2>
@@ -12,11 +16,11 @@
             <div class="fontprecontainer">
                <table>
                   <tr><th colspan="3" align="left">Superscript</th></tr>
-                  <tr><td width="45%"><input id="superscriptPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="superscriptResult" type="text" disabled /></td></tr>
+                  <tr><td width="45%"><input id="superscriptPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="superscriptResult" type="text" class="footnote" disabled /></td></tr>
                   <tr><td align="left"><button id="convertToSuperscript" type="button" class="btn btn-default">Convert</button>&nbsp;<button class="btn btn-default copyTransformedOutputBtn" value="superscriptResult">Copy Output</button>&nbsp;<small></small></tr>
 
                   <tr><th colspan="3" align="left">Subscript</th></tr>
-                  <tr><td width="45%"><input id="subscriptPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="subscriptResult" type="text" disabled /></td></tr>
+                  <tr><td width="45%"><input id="subscriptPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="subscriptResult" type="text" class="footnote" disabled /></td></tr>
                   <tr><td align="left"><button id="convertToSubscript" type="button" class="btn btn-default">Convert</button>&nbsp;<button class="btn btn-default copyTransformedOutputBtn" value="subscriptResult">Copy Output</button>&nbsp;<small></small></td></tr>
 
                   <tr><th colspan="3" align="left">Capital Letters Mid-line</th></tr>
@@ -39,9 +43,14 @@
                   <tr><td width="45%"><input id="italicPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="italicResult" type="text" disabled /></td></tr>
                   <tr><td align="left"><button id="convertToItalic" type="button" class="btn btn-default">Convert</button>&nbsp;<button class="btn btn-default copyTransformedOutputBtn" value="italicResult">Copy Output</button>&nbsp;<small></small></td></tr>
 
-                  <tr><th colspan="3" align="left">Bold Italic</th></tr>
+                  <tr><th colspan="3" align="left">San-Serif Bold Italic</th></tr>
+                  <tr><td width="45%"><input id="sanSerifBoldItalicPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="sanSerifBoldItalicResult" type="text" disabled /></td></tr>
+                  <tr><td align="left"><button id="convertToSanSerifBoldItalic" type="button" class="btn btn-default">Convert</button>&nbsp;<button class="btn btn-default copyTransformedOutputBtn" value="sanSerifBoldItalicResult">Copy Output</button>&nbsp;<small></small></td></tr>
+		  
+		  <tr><th colspan="3" align="left">Bold Italic</th></tr>
                   <tr><td width="45%"><input id="boldItalicPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="boldItalicResult" type="text" disabled /></td></tr>
                   <tr><td align="left"><button id="convertToBoldItalic" type="button" class="btn btn-default">Convert</button>&nbsp;<button class="btn btn-default copyTransformedOutputBtn" value="boldItalicResult">Copy Output</button>&nbsp;<small></small></td></tr>
+
 
                   <tr><th colspan="3" align="left">Script</th></tr>
                   <tr><td width="45%"><input id="scriptPlainText" type="text" value="Hello world" /></td><td width="5%" align="center">➝</td><td width="45%"><input id="scriptResult" type="text" disabled /></td></tr>
@@ -97,11 +106,13 @@
       });
       */
 
-      var charMapperSuperscript={"a":"ᵃ","A":"ᴬ","b":"ᵇ","B":"ᴮ","c":"ᶜ","C":"ᶜ","d":"ᵈ","D":"ᴰ","e":"ᵉ","E":"ᴱ","f":"ᶠ","F":"ᶠ","g":"ᵍ","G":"ᴳ","h":"ʰ","H":"ᵸ","i":"ⁱ","I":"ᴵ","j":"ʲ","J":"ᴶ","k":"ᵏ","K":"ᴷ","l":"ˡ","L":"ᴸ","m":"ᵐ","M":"ᴹ","n":"ⁿ","N":"ᴺ","o":"ᵒ","O":"ᴼ","p":"ᵖ","P":"ᴾ","q":"૧","Q":"૧","r":"ʳ","R":"ᴿ","s":"ˢ","S":"ˢ","t":"ᵗ","T":"ᵀ","u":"ᵘ","U":"ᵁ","v":"ᵛ","V":"ⱽ","w":"ʷ","W":"ᵂ","x":"ˣ","X":"ᵡ","y":"ʸ","Y":"ᵞ","z":"ᶻ","Z":"ᶾ",")":"⁾","(":"⁽","=":"⁼","-":"⁻","+":"⁺","×":"ˣ","0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};
+      var charMapperSuperscript={"a":"ᵃ","A":"ᴬ","b":"ᵇ","B":"ᴮ","c":"ᶜ","C":"ᶜ","d":"ᵈ","D":"ᴰ","e":"ᵉ","E":"ᴱ","f":"ᶠ","F":"ᶠ","g":"ᵍ","G":"ᴳ","h":"ʰ","H":"ᴴ","i":"ⁱ","I":"ᴵ","j":"ʲ","J":"ᴶ","k":"ᵏ","K":"ᴷ","l":"ˡ","L":"ᴸ","m":"ᵐ","M":"ᴹ","n":"ⁿ","N":"ᴺ","o":"ᵒ","O":"ᴼ","p":"ᵖ","P":"ᴾ","q":"૧","Q":"Q","r":"ʳ","R":"ᴿ","s":"ˢ","S":"ˢ","t":"ᵗ","T":"ᵀ","u":"ᵘ","U":"ᵁ","v":"ᵛ","V":"ⱽ","w":"ʷ","W":"ᵂ","x":"ˣ","X":"ˣ","y":"ʸ","Y":"ʸ","z":"ᶻ","Z":"ᶻ",")":"⁾","(":"⁽","=":"⁼","-":"⁻","+":"⁺","×":"ˣ","0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};
 
-      var charMapperSubscript={"a":"ₐ","A":"🇦","b":"ᵦ","B":"🇧","c":"𝒸","C":"🇨","d":"𝒹","D":"🇩","e":"ₑ","E":"🇪","f":"𝒻","F":"🇫","G":"🇬","h":"ₕ","H":"🇭","i":"ᵢ","I":"🇮","j":"ⱼ","J":"🇯","k":"ₖ","K":"🇰","l":"ₗ","L":"🇱","m":"ₘ","M":"🇲","n":"ₙ","N":"🇳","o":"ₒ","O":"🇴","p":"ₚ","P":"🇵","q":"զ","Q":"🇶","r":"ᵣ","R":"🇷","s":"ₛ","S":"🇸","t":"ₜ","T":"🇹","u":"ᵤ","U":"🇺","v":"ᵥ","V":"🇻","w":"ω","W":"🇼","x":"ₓ","X":"🇽","y":"ᵧ","Y":"🇾","z":"𝓏","Z":"🇿",")":"₎","(":"₍","=":"₌","-":"₋","+":"₊","×":"ₓ","0":"₀","1":"₁","2":"₂","3":"₃","4":"₄","5":"₅","6":"₆","7":"₇","8":"₈","9":"₉"};
 
-      var charMapperMidCapital={"a":"ᴀ","A":"ᴀ","b":"ᴃ","B":"ᴃ","c":"ᴄ","C":"ᴄ","d":"ᴅ","D":"ᴅ","e":"ᴇ","E":"ᴇ","f":"ғ","F":"ғ","g":"ɢ","G":"ɢ","h":"ʜ","H":"ʜ","i":"ɪ","I":"ɪ","j":"ᴊ","J":"ᴊ","k":"ᴋ","K":"ᴋ","l":"ʟ","L":"ʟ","m":"ᴍ","M":"ᴍ","n":"ɴ","N":"ɴ","o":"ᴏ","O":"ᴏ","p":"ᴘ","P":"ᴘ","q":"ɋ","Q":"Q","r":"ʀ","R":"ʀ","s":"s","S":"s","t":"ᴛ","T":"ᴛ","u":"ᴜ","U":"ᴜ","v":"ᴠ","V":"ᴠ","w":"ᴡ","W":"ᴡ","x":"x","X":"x","y":"ʏ","Y":"ʏ","z":"ᴢ","Z":"ᴢ"};
+      var charMapperSubscript={"a":"ₐ","A":"🇦","b":"ᵦ","B":"🇧","c":"𝒸","C":"🇨","d":"𝒹","D":"🇩","e":"ₑ","E":"🇪","f":"𝒻","F":"🇫","G":"🇬","h":"ₕ","H":"🇭","i":"ᵢ","I":"🇮","j":"ⱼ","J":"🇯","k":"ₖ","K":"🇰","l":"ₗ","L":"🇱","m":"ₘ","M":"🇲","n":"ₙ","N":"🇳","o":"ₒ","O":"🇴","p":"ₚ","P":"🇵","q":"զ","Q":"🇶","r":"ᵣ","R":"🇷","s":"ₛ","S":"🇸","t":"ₜ","T":"🇹","u":"ᵤ","U":"🇺","v":"ᵥ","V":"🇻","w":"ω","W":"🇼","x":"ₓ","X":"🇽","y":"ᵧ","Y":"🇾","z":"𝓏", "Z":"🇿",")":"₎","(":"₍","=":"₌","-":"₋","+":"₊","×":"ₓ","0":"₀","1":"₁","2":"₂","3":"₃","4":"₄","5":"₅","6":"₆","7":"₇","8":"₈","9":"₉"};
+
+      var charMapperMidCapital={"a":"ᴀ","A":"ᴀ","b":"ʙ","B":"ʙ","c":"ᴄ","C":"ᴄ","d":"ᴅ","D":"ᴅ","e":"ᴇ","E":"ᴇ","f":"ғ","F":"ғ","g":"ɢ","G":"ɢ","h":"ʜ","H":"ʜ","i":"ɪ","I":"ɪ","j":"ᴊ","J":"ᴊ","k":"ᴋ","K":"ᴋ","l":"ʟ","L":"ʟ","m":"ᴍ","M":"ᴍ","n":"ɴ","N":"ɴ","o":"ᴏ","O":"ᴏ","p":"ᴘ","P":"ᴘ","q":"ǫ","Q":"ǫ","r":"ʀ","R":"ʀ","s":"s","S":"s","t":"ᴛ","T":"ᴛ","u":"ᴜ","U":"ᴜ","v":"ᴠ","V":"ᴠ","w":"ᴡ","W":"ᴡ","x":"x","X":"x","y":"ʏ","Y":"ʏ","z":"z","Z":"z"};  
+                               
 
       var charMapperOldStyleEngAlpha={"a":"𝖆","b":"𝖇","c":"𝖈","d":"𝖉","e":"𝖊","f":"𝖋","g":"𝖌","h":"𝖍","i":"𝖎","j":"𝖏","k":"𝖐","l":"𝖑","m":"𝖒","n":"𝖓","o":"𝖔","p":"𝖕","q":"𝖖","r":"𝖗","s":"𝖘","t":"𝖙","u":"𝖚","v":"𝖛","w":"𝖜","x":"𝖝","y":"𝖞","z":"𝖟","A":"𝕬","B":"𝕭","C":"𝕮","D":"𝕯","E":"𝕰","F":"𝕱","G":"𝕲","H":"𝕳","I":"𝕴","J":"𝕵","K":"𝕶","L":"𝕷","M":"𝕸","N":"𝕹","O":"𝕺","P":"𝕻","Q":"𝕼","R":"𝕽","S":"𝕾","T":"𝕿","U":"𝖀","V":"𝖁","W":"𝖂","X":"𝖃","Y":"𝖄","Z":"𝖅"};
 
@@ -120,7 +131,11 @@
       var charMapperSanSerif={"a":"𝖺","A":"𝖠","b":"𝖻","B":"𝖡","c":"𝖼","C":"𝖢","d":"𝖽","D":"𝖣","e":"𝖾","E":"𝖤","f":"𝖿","F":"𝖥","g":"𝗀","G":"𝖦","h":"𝗁","H":"𝖧","i":"𝗂","I":"𝖨","j":"𝗃","J":"𝖩","k":"𝗄","K":"𝖪","l":"𝗅","L":"𝖫","m":"𝗆","M":"𝖬","n":"𝗇","N":"𝖭","o":"𝗈","O":"𝖮","p":"𝗉","P":"𝖯","q":"𝗊","Q":"𝖰","r":"𝗋","R":"𝖱","s":"𝗌","S":"𝖲","t":"𝗍","T":"𝖳","u":"𝗎","U":"𝖴","v":"𝗏","V":"𝖵","w":"𝗐","W":"𝖶","x":"𝗑","X":"𝖷","y":"𝗒","Y":"𝖸","z":"𝗓","Z":"𝖹",")":")","(":"(","=":"=","-":"-","+":"+","×":"×","0":"𝟢","1":"𝟣","2":"𝟤","3":"𝟥","4":"𝟦","5":"𝟧","6":"𝟨","7":"𝟩","8":"𝟪","9":"𝟫"
       };
 
-      var charMapperBoldItalic={"a":"𝙖","A":"𝘼","b":"𝙗","B":"𝘽","c":"𝙘","C":"𝘾","d":"𝙙","D":"𝘿","e":"𝙚","E":"𝙀","f":"𝙛","F":"𝙁","g":"𝙜","G":"𝙂","h":"𝘩","H":"𝙃","i":"𝙞","I":"𝙄","j":"𝙟","J":"𝙅","k":"𝙠","K":"𝙆","l":"𝙡","L":"𝙇","m":"𝙢","M":"𝙈","n":"𝙣","N":"𝙉","o":"𝙤","O":"𝙊","p":"𝙥","P":"𝙋","q":"𝙦","Q":"𝙌","r":"𝙧","R":"𝙍","s":"𝙨","S":"𝙎","t":"𝙩","T":"𝙏","u":"𝙪","U":"𝙐","v":"𝙫","V":"𝙑","w":"𝙬","W":"𝙒","x":"𝙭","X":"𝙓","y":"𝙮","Y":"𝙔","z":"𝙯","Z":"𝙕",")":")","(":"(","=":"=","-":"-","+":"+","×":"×","0":"0","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9"};
+      var charMapperSanSerifBoldItalic={"a":"𝙖","A":"𝘼","b":"𝙗","B":"𝘽","c":"𝙘","C":"𝘾","d":"𝙙","D":"𝘿","e":"𝙚","E":"𝙀","f":"𝙛","F":"𝙁","g":"𝙜","G":"𝙂","h":"𝙝","H":"𝙃","i":"𝙞","I":"𝙄","j":"𝙟","J":"𝙅","k":"𝙠","K":"𝙆","l":"𝙡","L":"𝙇","m":"𝙢","M":"𝙈","n":"𝙣","N":"𝙉","o":"𝙤","O":"𝙊","p":"𝙥","P":"𝙋","q":"𝙦","Q":"𝙌","r":"𝙧","R":"𝙍","s":"𝙨","S":"𝙎","t":"𝙩","T":"𝙏","u":"𝙪","U":"𝙐","v":"𝙫","V":"𝙑","w":"𝙬","W":"𝙒","x":"𝙭","X":"𝙓","y":"𝙮","Y":"𝙔","z":"𝙯","Z":"𝙕",")":")","(":"(","=":"=","-":"-","+":"+","×":"×","0":"0","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9"};
+
+ var charMapperBoldItalic={"0":"0","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9","A":"𝑨","B":"𝑩","C":"𝑪","D":"𝑫","E":"𝑬","F":"𝑭","G":"𝑮","H":"𝑯","I":"𝑰","J":"𝑱","K":"𝑲","L":"𝑳","M":"𝑴","N":"𝑵","O":"𝑶","P":"𝑷","Q":"𝑸","R":"𝑹","S":"𝑺","T":"𝑻","U":"𝑼","V":"𝑽","W":"𝑾","X":"𝑿","Y":"𝒀","Z":"𝒁","a":"𝒂","b":"𝒃","c":"𝒄","d":"𝒅","e":"𝒆","f":"𝒇","g":"𝒈","h":"𝒉","i":"𝒊","j":"𝒋","k":"𝒌","l":"𝒍","m":"𝒎","n":"𝒏","o":"𝒐","p":"𝒑","q":"𝒒","r":"𝒓","s":"𝒔","t":"𝒕","u":"𝒖","v":"𝒗","w":"𝒘","x":"𝒙","y":"𝒚","z":"𝒛"};
+
+
 
       var charMapperMonospace={"a":"𝚊","A":"𝙰","b":"𝚋","B":"𝙱","c":"𝚌","C":"𝙲","d":"𝚍","D":"𝙳","e":"𝚎","E":"𝙴","f":"𝚏","F":"𝙵","g":"𝚐","G":"𝙶","h":"𝚑","H":"𝙷","i":"𝚒","I":"𝙸","j":"𝚓","J":"𝙹","k":"𝚔","K":"𝙺","l":"𝚕","L":"𝙻","m":"𝚖","M":"𝙼","n":"𝚗","N":"𝙽","o":"𝚘","O":"𝙾","p":"𝚙","P":"𝙿","q":"𝚚","Q":"𝚀","r":"𝚛","R":"𝚁","s":"𝚜","S":"𝚂","t":"𝚝","T":"𝚃","u":"𝚞","U":"𝚄","v":"𝚟","V":"𝚅","w":"𝚠","W":"𝚆","x":"𝚡","X":"𝚇","y":"𝚢","Y":"𝚈","z":"𝚣","Z":"𝚉",")":")","(":"(","=":"=","-":"-","+":"+","×":"×","0":"𝟶","1":"𝟷","2":"𝟸","3":"𝟹","4":"𝟺","5":"𝟻","6":"𝟼","7":"𝟽","8":"𝟾","9":"𝟿"};
 
@@ -158,8 +173,12 @@
          var italicPlainTextEle=document.getElementById("italicPlainText");
          var italicEle=document.getElementById("italicResult");
 
-         var boldItalicPlainTextEle=document.getElementById("boldItalicPlainText");
+         var sanSerifBoldItalicPlainTextEle=document.getElementById("sanSerifBoldItalicPlainText");
+         var sanSerifBoldItalicEle=document.getElementById("sanSerifBoldItalicResult");
+
+	 var boldItalicPlainTextEle=document.getElementById("boldItalicPlainText");
          var boldItalicEle=document.getElementById("boldItalicResult");
+
 
          var scriptPlainTextEle=document.getElementById("scriptPlainText");
          var scriptEle=document.getElementById("scriptResult");
@@ -217,7 +236,9 @@
 
          convert(italicPlainTextEle,italicEle,charMapperItalic);
 
-         convert(boldItalicPlainTextEle,boldItalicEle,charMapperBoldItalic);
+         convert(sanSerifBoldItalicPlainTextEle,sanSerifBoldItalicEle,charMapperSanSerifBoldItalic);
+	 
+	 convert(boldItalicPlainTextEle,boldItalicEle,charMapperBoldItalic);
 
          convert(scriptPlainTextEle,scriptEle,charMapperScript);
 
@@ -251,10 +272,12 @@
             convert(italicPlainTextEle,italicEle,charMapperItalic);
          };
 
-         document.getElementById("convertToBoldItalic").onclick = function(e) {
-            convert(boldItalicPlainTextEle,boldItalicEle,charMapperBoldItalic);
+         document.getElementById("convertToSanSerifBoldItalic").onclick = function(e) {
+            convert(sanSerifBoldItalicPlainTextEle,sanSerifBoldItalicEle,charMapperSanSerifBoldItalic);
          };
-
+   	 document.getElementById("convertToBoldItalic").onclick = function(e) {
+	    convert(boldItalicPlainTextEle,boldItalicEle,charMapperBoldItalic);
+	 };
          document.getElementById("convertToSanSerif").onclick = function(e) {
             convert(sanSerifPlainTextEle, sanSerifEle, charMapperSanSerif)
          };
